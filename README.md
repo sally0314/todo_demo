@@ -1,46 +1,60 @@
-# Getting Started with Create React App
+* 개발 환경
+    * node v19.8.1
+    * typescript v4.9.5
+    * npm 9.5.1
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+* react+typescript 프로젝트 생성
+### `npx create-react-app todo_demo --template typescript`
 
-In the project directory, you can run:
 
-### `npm start`
+* 주요 라이브러리 추가
+    * Prettier
+    ### `npm install --save-dev prettier`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    * ESLint
+    ### `npm install --save-dev eslint`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+    * emotion
+    ### `npm install --save @emotion/react @emotion/styled`
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* 실행
+    * 라이브러리
+        * 최초 라이브러리 설치
+        ### `npm install`
+        * 추가 라이브러리 설치
+        ### `npm ci`
 
-### `npm run build`
+    * prettier
+        * 체크
+        ### `npm run format`
+        * 수정
+        ### `npm run format:fix`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    * ESLint
+        * 체크
+        ### `npm run lint`
+        * 수정
+        ### `npm run lint:fix`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    * 어플리케이션 실행
+        * normal
+        ### `npm start`
+        * http://localhost:3000 브라우저 확인
+        * test
+        ### `npm test`
+        * https://facebook.github.io/create-react-app/docs/running-tests
+        
+    
+    * 빌드
+        ### `npm run build`
+        * https://facebook.github.io/create-react-app/docs/deployment
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+* 참고
+    * react https://reactjs.org/
+    * typescript https://www.typescriptlang.org/
+    * Prettier https://prettier.io/
+    * ESLint https://eslint.org/
+    * emotion https://emotion.sh/docs/introduction
