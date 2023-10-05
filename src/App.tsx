@@ -1,13 +1,16 @@
 import Container from 'components/Container';
-import Title from 'components/Title';
 import TodoContents from 'components/TodoContents';
+import TodoModal from 'components/TodoModal';
+import { TodoContextProvider } from 'components/TodoContext';
 
 function App() {
     return (
         <Container>
-            <Title label = "Sally's Todo List" />
-            <TodoContents />
-        </Container>  
+            <TodoContextProvider>
+                <TodoContents />
+                <TodoModal />
+            </TodoContextProvider>
+        </Container>
     );
 }
 

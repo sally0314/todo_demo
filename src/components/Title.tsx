@@ -1,18 +1,23 @@
 import styled from "@emotion/styled";
 
-const Container = styled.h1`
-    margin-bottom: 32px;
+const Container = styled.div`
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
+`;
+
+const Label = styled.h1`
+    margin-top: 0;  
 `;
 
 interface Props {
     readonly label: string
 }
 
-const Title = ({ label }: Props) => {
-    return <Container>{label}</Container>;
-}
-
-export default Title;
+export const Title = ({ label }: Props) => {
+    return (
+        <Container>
+            <Label>{label}</Label>
+        </Container>
+    );
+};

@@ -1,43 +1,21 @@
 import styled from "@emotion/styled";
-// import TodoItem from 'components/TodoContents'
-import Button from 'components/Button';
-import { TodoItem } from "./TodoContents";
-// import React, { useState } from 'react';
+import TodoItem from "components/TodoItem";
+import { useContext } from "react";
+import { TodoContext } from "components/TodoContext";
 
 const Container = styled.div`
-    align-items: center;
-    justify-content: center;
-    padding: 20px 0;
-`;
-
-const List = styled.div`
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 3px 0;
+    flex-direction: column;
 `;
 
-const Todo = styled.span`
-    width: 500px;
-    min-width: 300px;
-    align-items: center;
-    margin-right: 10px;
-    padding: 10px 0;
-`;
+const TodoList = () => {
 
-interface Props {
-    readonly removeTodo?: (id: string) => void;
-    readonly todos?: TodoItem[];
-}
+    const { todos, onDelete } = useContext(TodoContext);
 
-const TodoList = ({ todos, removeTodo }: Props) => {
     return (
         <Container>
             {todos?.map((todo) => (
-                <List key = {todo.id}>
-                    <Todo>{todo.text}</Todo>
-                    <Button label = "Del" onClick = {() => (removeTodo && removeTodo(todo.id))}/>
-                </List>
+                <TodoItem key = {todo.date.toTimeString()} todo = {todo} onDelete = {() => onDelete(todo)} />
             ))}
         </Container>
     );
