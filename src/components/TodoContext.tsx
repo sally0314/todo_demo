@@ -1,7 +1,8 @@
 import { createContext, useState } from "react";
+import { v4 as uuid } from 'uuid';
 
 export interface Todo {
-    id?: number;
+    id: string;
     readonly title: string;
     readonly date: Date;
     readonly description?: string;
@@ -41,7 +42,7 @@ export const TodoContextProvider = ({ children }: Props) => {
         }
 
         const newTodoItem: Todo = {
-            id: todos.length + 1,
+            id: uuid(),
             date: new Date(),
             title: todo.title,
             description: todo.description,
