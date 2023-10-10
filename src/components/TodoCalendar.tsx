@@ -4,6 +4,7 @@ import {TodoCalendarContext} from "../contexts/TodoCalendarContext";
 import {useContext} from "react";
 import Button from "./Button";
 import TodoModal from "./TodoCalendar/TodoModal";
+import TodoModalButton from "./TodoCalendar/TodoModalButton";
 
 const Container = styled.div`
   width: 100%;
@@ -25,10 +26,26 @@ const DayHeader = styled.th`
   width: 10rem;
   height: 3rem;
 `
-const Day = styled.td`
+const DayCell = styled.td`
   width: 10rem;
   height: 10rem;
   padding-left: 1rem;
+`
+
+const DayWarp = styled.div`
+  width: 10rem;
+  height: 10rem;
+  padding-left: 1rem;
+  position: relative;
+  margin-top: 0.5rem;
+`
+const Day = styled.div`
+  position: absolute;
+  right: 0.5rem;
+`
+
+const ModalWarp = styled.div`
+  padding-top: 1rem;
 `
 
 const TodoCalendar = () => {
@@ -113,14 +130,17 @@ const TodoCalendar = () => {
                         <tr key={`row-${i}`}>
                             {row.map((x: number, j: number) => {
                                 return (
-                                    <Day className="border border-slate-300" key={`col-${j}`}>
-                                        <div>
-                                            {x === 0 ? '' : x}
-                                        </div>
-                                        <>
+                                    <DayCell className="border border-slate-300" key={`col-${j}`}>
+                                        <DayWarp>
+                                            <Day>
+                                                {x === 0 ? '' : x}
+                                            </Day>
+                                            {x > 0 && <TodoModalButton />}
+                                        </DayWarp>
+                                        <ModalWarp>
                                             {x > 0 && <TodoModal/>}
-                                        </>
-                                    </Day>)
+                                        </ModalWarp>
+                                    </DayCell>)
                             })}
                         </tr>
                     )

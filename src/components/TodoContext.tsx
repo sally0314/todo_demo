@@ -9,13 +9,17 @@ export interface Todo {
 
 interface Context {
     readonly todos: Todo[];
+    readonly showToDoInput: boolean;
+    readonly toggleShowToDoInput: () => void;
     readonly onAdd: (todo: Todo) => void;
     readonly onDelete: (todo: Todo) => void;
 }
 
 export const TodoContext = createContext<Context>({
     todos: [],
+    showToDoInput: false,
     /* eslint-disable @typescript-eslint/no-empty-function */
+    toggleShowToDoInput: (): void => {},
     onAdd: (): void => {},
     onDelete: (): void => {},
     /* eslint-enable @typescript-eslint/no-empty-function */
@@ -27,6 +31,9 @@ interface Props {
 
 export const TodoContextProvider = ({ children }: Props) => {
     const [todos, setTodos] = useState<Todo[]>([]);
+    const [showToDoInput, setShowToDoInput] = useState<boolean>(false);
+
+    const toggleShowToDoInput = () => setShowToDoInput(!showToDoInput)
 
     const onAdd = (todo: Todo) => {
         if (todo.title.trim() === '') {
@@ -41,7 +48,6 @@ export const TodoContextProvider = ({ children }: Props) => {
         };
 
         setTodos([...todos, newTodoItem]);
-        console.log("!!!!!", todos);
     };
 
     const onDelete = (todo: Todo) => {
@@ -50,10 +56,12 @@ export const TodoContextProvider = ({ children }: Props) => {
     };
 
     return (
-        <TodoContext.Provider 
+        <TodoContext.Provider
             value = {{
-                todos, 
-                onAdd, 
+                todos,
+                showToDoInput,
+                toggleShowToDoInput,
+                onAdd,
                 onDelete,
             }}>
             {children}
