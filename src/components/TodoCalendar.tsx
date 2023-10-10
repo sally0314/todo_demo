@@ -3,6 +3,7 @@ import dayjs, {Dayjs} from 'dayjs';
 import {TodoCalendarContext} from "../contexts/TodoCalendarContext";
 import {useContext} from "react";
 import Button from "./Button";
+import TodoModal from "./TodoCalendar/TodoModal";
 
 const Container = styled.div`
   width: 100%;
@@ -113,7 +114,12 @@ const TodoCalendar = () => {
                             {row.map((x: number, j: number) => {
                                 return (
                                     <Day className="border border-slate-300" key={`col-${j}`}>
-                                        <div>{x === 0 ? '' : x}</div>
+                                        <div>
+                                            {x === 0 ? '' : x}
+                                        </div>
+                                        <>
+                                            {x > 0 && <TodoModal/>}
+                                        </>
                                     </Day>)
                             })}
                         </tr>
