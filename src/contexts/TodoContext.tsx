@@ -59,14 +59,12 @@ export const TodoContextProvider = ({children}: Props) => {
         };
 
         const dateKey = newTodoItem.date.format('YYYY-MM-DD')
-        todos.set(dateKey, [...(todos.get(dateKey) || []), newTodoItem])
-        setTodos(todos);
+        setTodos((new Map(todos)).set(dateKey, [...(todos.get(dateKey) || []), newTodoItem]));
     };
 
     const onDelete = (todo: Todo) => {
         const dateKey = todo.date.format('YYYY-MM-DD')
-        todos.set(dateKey, [...(todos.get(dateKey) || [])].filter(item => item.id !== todo.id));
-        setTodos(new Map(todos));
+        setTodos((new Map(todos)).set(dateKey, [...(todos.get(dateKey) || [])].filter(item => item.id !== todo.id)));
     };
 
     return (
