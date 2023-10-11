@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import Button from "components/Button";
-import { Todo } from "components/TodoContext";
+import { Todo } from "contexts/TodoContext";
 
 const Container = styled.div`
     display: flex;
