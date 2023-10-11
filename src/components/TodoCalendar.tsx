@@ -58,14 +58,24 @@ const TodoCalendar = () => {
     const dayOf1stForSundayFirst: number = dayjs(workDate.clone().format('YYYY-MM-01')).day()
     const dayOf1stForMondayFirst: number = (dayOf1stForSundayFirst + 6) % 7
 
-    const days: Array<number> = [...Array(dayOf1stForMondayFirst).fill(0)]
-    for (let i: number = 1; i <= daysInMonth; i++) {
-        days.push(i)
+    const dayOfLastForSundayFirst: number = dayjs(workDate.clone().format(`YYYY-MM-${daysInMonth}`)).day()
+    const dayOfLastForMondayFirst: number = (dayOfLastForSundayFirst + 6) % 7
+
+    let previousDays = Array(dayOf1stForMondayFirst).length
+
+    const dayIndexes: Array<number> = [...Array(dayOf1stForMondayFirst)].map(() => 0 - previousDays--)
+    const remains = 6 - dayOfLastForMondayFirst
+    const limits = daysInMonth + remains
+    for (let i: number = 0; i < limits; i++) {
+        dayIndexes.push(i)
     }
-    const chunks: Array<number[]> = Array(Math.ceil(days.length / 7)).fill([])
+
+    const chunks: Array<number[]> = Array(Math.ceil(dayIndexes.length / 7)).fill([])
     for (let i: number = 0; i < chunks.length; i++) {
-        chunks[i] = days.splice(0, 7)
+        chunks[i] = dayIndexes.splice(0, 7)
     }
+
+    const startingDate = dayjs(workDate.clone().format('YYYY-MM-01'));
 
     return (
         <Container className="flex items-center justify-center">
@@ -130,15 +140,17 @@ const TodoCalendar = () => {
                     return (
                         <tr key={`row-${i}`}>
                             {row.map((x: number, j: number) => {
-                                const dateKey = x > 0 ? workDate.format('YYYY-MM-') + `${x}`.padStart(2, '0') : ''
+                                const cellDate = startingDate.clone().add(x, 'days')
+                                const cellDay = cellDate.format('DD')
+                                const dateKey = cellDate.format('YYYY-MM-DD')
                                 return (
                                     <DayCell className="border border-slate-300" key={`col-${j}`}>
                                         <DayWarp>
                                             <Day>
-                                                {x === 0 ? '' : x}
+                                                {cellDay}
                                             </Day>
                                             <TodoList dateKey={dateKey}/>
-                                            {x > 0 && <TodoModalButton dateKey={dateKey}/>}
+                                            {<TodoModalButton dateKey={dateKey}/>}
                                         </DayWarp>
                                         <ModalWarp>
                                             {dateKey !== '' && <TodoModal dateKey={dateKey}/>}
