@@ -2,8 +2,9 @@ import styled from "@emotion/styled";
 import Input from 'components/Input';
 import Button from 'components/Button';
 import React, {useState} from 'react';
-import {Todo} from "components/TodoContext";
+import {Todo} from "contexts/TodoContext";
 import {Title} from "components/Title";
+import dayjs, {Dayjs} from "dayjs";
 
 const Container = styled.div`
   position: absolute;
@@ -45,26 +46,30 @@ const InputContainer = styled.div`
 
 
 interface Props {
+    readonly date: Dayjs;
     readonly onAdd?: (todo: Todo) => void;
     readonly onClose?: () => void;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const TodoInput = ({onAdd, onClose = null}: Props) => {
+const TodoInput = ({date, onAdd, onClose}: Props) => {
     const [newTodo, setNewTodo] = useState<Todo>({
-        title: '', date: new Date(), description: '',
+        date,
+        title: '',
+        description: '',
+        createdAt: dayjs(),
     });
+
+    //console.log('newTodo', newTodo)
 
     const setNewTodoTitle = (title: string) => {
         setNewTodo((prev) => {
-            return {...prev, title: title, date: new Date()};
+            return {...prev, title, createdAt: dayjs()};
         });
     }
 
     const setNewTodoDescription = (description: string) => {
         setNewTodo((prev) => {
-            return {...prev, description: description, date: new Date()};
+            return {...prev, description, createdAt: dayjs()};
         });
     }
 

@@ -1,5 +1,5 @@
 import Container from 'components/Container';
-import {TodoContextProvider} from 'components/TodoContext';
+import {TodoContextProvider} from 'contexts/TodoContext';
 import TodoCalendar from "./components/TodoCalendar";
 import {TodoCalendarContextProvider} from "./contexts/TodoCalendarContext";
 

@@ -5,6 +5,7 @@ import {useContext} from "react";
 import Button from "./Button";
 import TodoModal from "./TodoCalendar/TodoModal";
 import TodoModalButton from "./TodoCalendar/TodoModalButton";
+import TodoList from "./TodoList";
 
 const Container = styled.div`
   width: 100%;
@@ -129,16 +130,18 @@ const TodoCalendar = () => {
                     return (
                         <tr key={`row-${i}`}>
                             {row.map((x: number, j: number) => {
+                                const dateKey = x > 0 ? workDate.format('YYYY-MM-') + `${x}`.padStart(2, '0') : ''
                                 return (
                                     <DayCell className="border border-slate-300" key={`col-${j}`}>
                                         <DayWarp>
                                             <Day>
                                                 {x === 0 ? '' : x}
                                             </Day>
-                                            {x > 0 && <TodoModalButton />}
+                                            <TodoList dateKey={dateKey}/>
+                                            {x > 0 && <TodoModalButton dateKey={dateKey}/>}
                                         </DayWarp>
                                         <ModalWarp>
-                                            {x > 0 && <TodoModal/>}
+                                            {dateKey !== '' && <TodoModal dateKey={dateKey}/>}
                                         </ModalWarp>
                                     </DayCell>)
                             })}
