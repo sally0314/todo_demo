@@ -8,6 +8,11 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
+const ItemWrap = styled.div`
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
+`
+
 interface Props {
     readonly dateKey: string;
 }
@@ -15,16 +20,13 @@ interface Props {
 const TodoList = ({dateKey = ''}: Props) => {
     const {todos, onDelete} = useContext(TodoContext);
 
-    // console.log('TodoList', {
-    //     dateKey,
-    //     todos: todos.get(dateKey) || [],
-    // })
-
     return (
         <Container>
             {(todos.get(dateKey) || [])
                 .map((todo) => (
-                    <TodoItem key={todo.id} todo={todo} onDelete={() => onDelete(todo)}/>
+                    <ItemWrap key={todo.id}>
+                        <TodoItem todo={todo} onDelete={() => onDelete(todo)}/>
+                    </ItemWrap>
                 ))}
         </Container>
     );

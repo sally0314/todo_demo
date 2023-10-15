@@ -5,14 +5,11 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-right: 2rem;
 `;
 
 const Title = styled.div`
   flex: 1;
   font-size: 0.8rem;
-  //margin-right: 16px;
-  padding: 0.2rem;
   text-align: center;
   width: 100%;
 `;
@@ -26,7 +23,7 @@ const TodoItem = ({todo}: Props) => {
     return (
         <Container>
             <Title
-                className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
             >
                 {todo.title}
             </Title>
