@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import {Todo} from "contexts/TodoContext";
+import React from "react";
 
 const Container = styled.div`
   display: flex;
@@ -16,14 +17,19 @@ const Title = styled.div`
 
 interface Props {
     readonly todo: Todo;
-    readonly onDelete: (todo: Todo) => void;
+    readonly onClick: (event: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-const TodoItem = ({todo}: Props) => {
+const TodoItem = ({todo, onClick}: Props) => {
     return (
         <Container>
             <Title
                 className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                onClick={e => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    return onClick(e)
+                }}
             >
                 {todo.title}
             </Title>

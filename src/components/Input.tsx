@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import React from "react";
 
 const Container = styled.input`
     font-size: 1rem;
@@ -14,9 +15,9 @@ interface Props {
 }
 
 const Input = ({ placeholder, onChange }: Props) => {
-    return <Container 
-        placeholder = {placeholder} 
-        onChange = {(e) => onChange && onChange(e)} 
+    return <Container
+        placeholder = {placeholder}
+        onChange = {(e) => onChange && onChange(e)}
     />;
 };
 

@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import React from "react";
 
 interface ContainerProps {
     readonly color: string;
@@ -27,7 +28,7 @@ interface Props {
     readonly label: string;
     readonly color?: string;
     readonly className?: string;
-    readonly onClick?: () => void;
+    readonly onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 const Button = ({ label, color = '#FF8D40', onClick, className = '' }: Props) => {

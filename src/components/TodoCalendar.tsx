@@ -6,6 +6,7 @@ import Button from "./Button";
 import TodoModal from "./TodoCalendar/TodoModal";
 import TodoList from "./TodoList";
 import {TodoContext} from "../contexts/TodoContext";
+import TodoInput from "./TodoInput";
 
 const Container = styled.div`
   width: 100%;
@@ -72,7 +73,7 @@ const TodoCalendar = () => {
     }
     const startingDate = dayjs(workDate.clone().format('YYYY-MM-01'));
 
-    const {showToDoInput, openShowToDoInput} = useContext(TodoContext);
+    const {modalKeyMap, openModal} = useContext(TodoContext);
 
     return (
         <Container className="">
@@ -132,7 +133,11 @@ const TodoCalendar = () => {
                         <DayCell
                             className={i % 7 === 6 ? 'border-t border-b border-x border-slate-300' : 'border-t border-b border-l border-slate-300'}
                             key={`col-${i}`}
-                            onClick={() => !showToDoInput && openShowToDoInput(dateKey)}
+                            onClick={e =>  {
+                                e.preventDefault()
+                                e.preventDefault()
+                                return openModal({inputDateKey: dateKey})
+                            }}
                         >
                             <DayWarp>
                                 <Day className={'w-100'}>
@@ -141,7 +146,11 @@ const TodoCalendar = () => {
                                 <TodoList dateKey={dateKey}/>
                             </DayWarp>
                             <ModalWarp>
-                                {dateKey !== '' && <TodoModal dateKey={dateKey}/>}
+                                {
+                                    <TodoModal show={dateKey !== '' && modalKeyMap.inputDateKey === dateKey}>
+                                        <TodoInput dateKey={dateKey}/>
+                                    </TodoModal>
+                                }
                             </ModalWarp>
                         </DayCell>)
                 })}
