@@ -4,8 +4,8 @@ import {TodoCalendarContext} from "../contexts/TodoCalendarContext";
 import {useContext} from "react";
 import Button from "./Button";
 import TodoModal from "./TodoCalendar/TodoModal";
-import TodoModalButton from "./TodoCalendar/TodoModalButton";
 import TodoList from "./TodoList";
+import {TodoContext} from "../contexts/TodoContext";
 
 const Container = styled.div`
   width: 100%;
@@ -72,6 +72,8 @@ const TodoCalendar = () => {
     }
     const startingDate = dayjs(workDate.clone().format('YYYY-MM-01'));
 
+    const {showToDoInput, openShowToDoInput} = useContext(TodoContext);
+
     return (
         <Container className="">
             <CalendarWrap className="grid grid-cols-7 mx-auto table-auto">
@@ -129,13 +131,14 @@ const TodoCalendar = () => {
                     return (
                         <DayCell
                             className={i % 7 === 6 ? 'border-t border-b border-x border-slate-300' : 'border-t border-b border-l border-slate-300'}
-                            key={`col-${i}`}>
+                            key={`col-${i}`}
+                            onClick={() => !showToDoInput && openShowToDoInput(dateKey)}
+                        >
                             <DayWarp>
                                 <Day className={'w-100'}>
                                     {cellDay}
                                 </Day>
                                 <TodoList dateKey={dateKey}/>
-                                {<TodoModalButton dateKey={dateKey}/>}
                             </DayWarp>
                             <ModalWarp>
                                 {dateKey !== '' && <TodoModal dateKey={dateKey}/>}

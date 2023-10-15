@@ -59,8 +59,6 @@ const TodoInput = ({date, onAdd, onClose}: Props) => {
         createdAt: dayjs(),
     });
 
-    //console.log('newTodo', newTodo)
-
     const setNewTodoTitle = (title: string) => {
         setNewTodo((prev) => {
             return {...prev, title, createdAt: dayjs()};
@@ -83,7 +81,7 @@ const TodoInput = ({date, onAdd, onClose}: Props) => {
                     <Input placeholder="설명 추가 (옵션)" onChange={(e) => (setNewTodoDescription(e.target.value))}/>
                     <div className="flex items-center justify-center">
                         <Button label="추가" color="#98a7ff" onClick={() => (onAdd && newTodo && onAdd(newTodo))}/>
-                        {onClose && <Button label="취소" onClick={() => onClose()}/>}
+                        {onClose && <Button label="취소" onClick={() => onClose()} className={'ml-2'}/>}
                     </div>
                 </InputContainer>
             </Contents>
