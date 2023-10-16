@@ -20,11 +20,14 @@ interface Props {
 }
 
 const TodoList = ({dateKey = ''}: Props) => {
+    const limit = 5
     const {todos, modalKeyMap, openModal} = useContext(TodoContext);
-
+    const items = todos.get(dateKey) || []
+    const remains = items.length > limit ? items.slice(limit, items.length) : []
+    const hasMore = remains.length > 0
     return (
         <Container>
-            {(todos.get(dateKey) || [])
+            {([...items].splice(0, 5))
                 .map((todo) => (
                     <ItemWrap key={todo.id}>
                         <TodoItem todo={todo} onClick={
@@ -36,6 +39,10 @@ const TodoList = ({dateKey = ''}: Props) => {
                         }
                     </ItemWrap>
                 ))}
+            {
+                hasMore &&
+                <div>{`${remains.length} more`}</div>
+            }
         </Container>
     );
 }
