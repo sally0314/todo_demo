@@ -18,7 +18,6 @@ export const ShowInputButton = ({ show, onClick }: Props) => {
         <Container>
             <Button
                 label = {show ? '닫기':'할 일 추가'}
-                color = {show ? undefined : '#98A7FF'}
                 onClick = {onClick}
             />
         </Container>

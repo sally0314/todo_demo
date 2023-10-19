@@ -1,12 +1,6 @@
-import styled from "@emotion/styled";
 import TodoItem from "components/TodoItem";
 import {useContext} from "react";
 import {TodoContext} from "contexts/TodoContext";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
 
 interface Props {
     readonly dateKey: string;
@@ -15,18 +9,13 @@ interface Props {
 const TodoList = ({dateKey = ''}: Props) => {
     const {todos, onDelete} = useContext(TodoContext);
 
-    // console.log('TodoList', {
-    //     dateKey,
-    //     todos: todos.get(dateKey) || [],
-    // })
-
     return (
-        <Container>
+        <div className="absolute w-full h-4/5 bottom-0">
             {(todos.get(dateKey) || [])
                 .map((todo) => (
                     <TodoItem key={todo.id} todo={todo} onDelete={() => onDelete(todo)}/>
                 ))}
-        </Container>
+        </div>
     );
 }
 

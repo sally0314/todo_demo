@@ -1,4 +1,3 @@
-import styled from "@emotion/styled";
 import dayjs, {Dayjs} from 'dayjs';
 import {TodoCalendarContext} from "../contexts/TodoCalendarContext";
 import {useContext} from "react";
@@ -7,47 +6,15 @@ import TodoModal from "./TodoCalendar/TodoModal";
 import TodoModalButton from "./TodoCalendar/TodoModalButton";
 import TodoList from "./TodoList";
 
-const Container = styled.div`
-  width: 100%;
-`
+interface Props {
+    readonly label: string
+}
 
-const TitleHeader = styled.th`
-  height: 3rem;
-`
-
-const Title = styled.div`
-  margin-left: 2rem;
-`
-
-const MonthSelector = styled.nav`
-  margin-left: auto;
-`
-
-const DayHeader = styled.th`
-  width: 10rem;
-  height: 3rem;
-`
-const DayCell = styled.td`
-  width: 10rem;
-  height: 10rem;
-  padding-left: 1rem;
-`
-
-const DayWarp = styled.div`
-  width: 10rem;
-  height: 10rem;
-  padding-left: 1rem;
-  position: relative;
-  margin-top: 0.5rem;
-`
-const Day = styled.div`
-  position: absolute;
-  right: 0.5rem;
-`
-
-const ModalWarp = styled.div`
-  padding-top: 1rem;
-`
+const DayHeader = ({ label }: Props) => {
+    return (
+        <th className="border border-slate-300 w-160 h-48">{label}</th>
+    );
+};
 
 const TodoCalendar = () => {
     const {settings, goPrev, goToday, goNext} = useContext(TodoCalendarContext)
@@ -78,62 +45,56 @@ const TodoCalendar = () => {
     const startingDate = dayjs(workDate.clone().format('YYYY-MM-01'));
 
     return (
-        <Container className="flex items-center justify-center">
-            <table className="table-auto border-collapse border border-slate-400">
+        <div className="flex items-center justify-center w-full">
+            <table className="table-auto">
                 <thead>
-                <tr>
-                    <TitleHeader
-                        className="flex items-center justify-between"
-                    >
-                        <Title>{title}</Title>
-                    </TitleHeader>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th>
-                        <MonthSelector>
-                            <ul className="inline-flex -space-x-px text-sm">
-                                <li>
-                                    <Button
-                                        label="Today"
-                                        className="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                                        onClick={goToday}
-                                    />
-                                </li>
-                            </ul>
-                        </MonthSelector>
-                    </th>
-                    <th>
-                        <MonthSelector>
-                            <ul className="inline-flex -space-x-px text-sm">
-                                <li>
-                                    <Button
-                                        label="Prev"
-                                        className="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                                        onClick={goPrev}
-                                    />
-                                </li>
-                                <li>
-                                    <Button
-                                        label="Next"
-                                        className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                                        onClick={goNext}
-                                    />
-                                </li>
-                            </ul>
-                        </MonthSelector>
-                    </th>
-                </tr>
-                <tr>
-                    <DayHeader className="border border-slate-300">Mon</DayHeader>
-                    <DayHeader className="border border-slate-300">Tue</DayHeader>
-                    <DayHeader className="border border-slate-300">Wed</DayHeader>
-                    <DayHeader className="border border-slate-300">Thu</DayHeader>
-                    <DayHeader className="border border-slate-300">Fri</DayHeader>
-                    <DayHeader className="border border-slate-300">Sat</DayHeader>
-                    <DayHeader className="border border-slate-300">Sun</DayHeader>
-                </tr>
+                    <tr>
+                        <th
+                            className="items-center justify-between h-48 pb-20"
+                            colSpan={5}
+                        >
+                            <div className="ml-32">{title}</div>
+                        </th>
+                        <th
+                            className="items-center justify-between h-48 pb-20"
+                            colSpan={2}
+                        >
+                            <nav className="ml-auto">
+                                <ul className="inline-flex -space-x-px text-sm">
+                                    <li>
+                                        <Button
+                                            label="Today"
+                                            className="flex items-center justify-center px-16 py-7 mx-5 rounded-md bg-blue-500/10 text-gray-500 hover:text-white hover:bg-blue-500/100"
+                                            onClick={goToday}
+                                        />
+                                    </li>
+                                    <li>
+                                        <Button
+                                            label=" < "
+                                            className="flex items-center justify-center px-16 py-7 mx-5 rounded-md bg-blue-500/10 text-gray-500 hover:text-white hover:bg-blue-500/100"
+                                            onClick={goPrev}
+                                        />
+                                    </li>
+                                    <li>
+                                        <Button
+                                            label=" > "
+                                            className="flex items-center justify-center px-16 py-7 mx-5 rounded-md bg-blue-500/10 text-gray-500 hover:text-white hover:bg-blue-500/100"
+                                            onClick={goNext}
+                                        />
+                                    </li>
+                                </ul>
+                            </nav>
+                        </th>
+                    </tr>
+                    <tr>
+                        <DayHeader label="Mon" />
+                        <DayHeader label="Tue" />
+                        <DayHeader label="Wed" />
+                        <DayHeader label="Thu" />
+                        <DayHeader label="Fri" />
+                        <DayHeader label="Sat" />
+                        <DayHeader label="Sun" />
+                    </tr>
                 </thead>
                 <tbody>
                 {chunks.map((row: number[], i: number) => {
@@ -144,25 +105,25 @@ const TodoCalendar = () => {
                                 const cellDay = cellDate.format('DD')
                                 const dateKey = cellDate.format('YYYY-MM-DD')
                                 return (
-                                    <DayCell className="border border-slate-300" key={`col-${j}`}>
-                                        <DayWarp>
-                                            <Day>
+                                    <td className="border border-slate-300 w-160 h-160" key={`col-${j}`}>
+                                        <div className="relative w-160 h-160 mt-8">
+                                            <div className="absolute right-8">
                                                 {cellDay}
-                                            </Day>
+                                            </div>
                                             <TodoList dateKey={dateKey}/>
                                             {<TodoModalButton dateKey={dateKey}/>}
-                                        </DayWarp>
-                                        <ModalWarp>
+                                        </div>
+                                        <div className="pt-16">
                                             {dateKey !== '' && <TodoModal dateKey={dateKey}/>}
-                                        </ModalWarp>
-                                    </DayCell>)
+                                        </div>
+                                    </td>)
                             })}
                         </tr>
                     )
                 })}
                 </tbody>
             </table>
-        </Container>
+        </div>
     );
 }
 

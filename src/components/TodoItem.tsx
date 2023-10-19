@@ -1,25 +1,5 @@
-import styled from "@emotion/styled";
 import Button from "components/Button";
 import { Todo } from "contexts/TodoContext";
-
-const Container = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 16px;
-`;
-
-// const Date = styled.div`
-//     flex: 1;
-//     font-size: 1.2rem;
-//     margin-right: 16px;
-// `;
-
-const Title = styled.div`
-    flex: 1;
-    font-size: 1.2rem;
-    margin-right: 16px;
-`;
 
 interface Props {
     readonly todo: Todo;
@@ -28,10 +8,16 @@ interface Props {
 
 const TodoItem = ({ todo, onDelete }: Props) => {
     return (
-        <Container>
-            <Title>{todo.title}</Title>
-            <Button label = "Del" onClick = {() => onDelete(todo)} />
-        </Container>
+        <div className="flex justify-center mb-5 bg-amber-100">
+            <div
+                className="block text-left text-sm text-gray-800 ml-5 mr-16 w-130 z-10"
+                onClick={() => alert(JSON.stringify(todo))}
+            >{todo.title}</div>
+            <Button label = "X"
+                onClick = {() => onDelete(todo)}
+                className="flex font-bold text-red-800 px-3 text-sm z-10"
+            />
+        </div>
     );
 }
 
