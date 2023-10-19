@@ -1,36 +1,38 @@
 import styled from "@emotion/styled";
-import Button from "components/Button";
-import { Todo } from "contexts/TodoContext";
+import {Todo} from "contexts/TodoContext";
+import React from "react";
 
 const Container = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
-// const Date = styled.div`
-//     flex: 1;
-//     font-size: 1.2rem;
-//     margin-right: 16px;
-// `;
-
 const Title = styled.div`
-    flex: 1;
-    font-size: 1.2rem;
-    margin-right: 16px;
+  flex: 1;
+  font-size: 0.8rem;
+  text-align: center;
+  width: 100%;
 `;
 
 interface Props {
     readonly todo: Todo;
-    readonly onDelete: (todo: Todo) => void;
+    readonly onClick: (event: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-const TodoItem = ({ todo, onDelete }: Props) => {
+const TodoItem = ({todo, onClick}: Props) => {
     return (
         <Container>
-            <Title>{todo.title}</Title>
-            <Button label = "Del" onClick = {() => onDelete(todo)} />
+            <Title
+                className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                onClick={e => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    return onClick(e)
+                }}
+            >
+                {todo.title}
+            </Title>
         </Container>
     );
 }

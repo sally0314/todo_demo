@@ -4,45 +4,47 @@ import {TodoCalendarContext} from "../contexts/TodoCalendarContext";
 import {useContext} from "react";
 import Button from "./Button";
 import TodoModal from "./TodoCalendar/TodoModal";
-import TodoModalButton from "./TodoCalendar/TodoModalButton";
 import TodoList from "./TodoList";
+import {TodoContext} from "../contexts/TodoContext";
+import TodoInput from "./TodoInput";
 
 const Container = styled.div`
   width: 100%;
 `
 
-const TitleHeader = styled.th`
+const CalendarWrap = styled.div`
+  //max-width: 1200px;
+`
+
+const TitleHeader = styled.div`
   height: 3rem;
 `
 
 const Title = styled.div`
   margin-left: 2rem;
+  font-size: 1.4rem;
 `
 
 const MonthSelector = styled.nav`
   margin-left: auto;
 `
 
-const DayHeader = styled.th`
-  width: 10rem;
-  height: 3rem;
+const DayHeader = styled.div`
+  text-align: center;
+  border-bottom: 0;
 `
-const DayCell = styled.td`
-  width: 10rem;
-  height: 10rem;
-  padding-left: 1rem;
+const DayCell = styled.div`
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border-top: 0;
 `
 
 const DayWarp = styled.div`
-  width: 10rem;
   height: 10rem;
-  padding-left: 1rem;
-  position: relative;
   margin-top: 0.5rem;
 `
 const Day = styled.div`
-  position: absolute;
-  right: 0.5rem;
+  text-align: right;
 `
 
 const ModalWarp = styled.div`
@@ -69,29 +71,19 @@ const TodoCalendar = () => {
     for (let i: number = 0; i < limits; i++) {
         dayIndexes.push(i)
     }
-
-    const chunks: Array<number[]> = Array(Math.ceil(dayIndexes.length / 7)).fill([])
-    for (let i: number = 0; i < chunks.length; i++) {
-        chunks[i] = dayIndexes.splice(0, 7)
-    }
-
     const startingDate = dayjs(workDate.clone().format('YYYY-MM-01'));
 
+    const {modalKeyMap, openModal} = useContext(TodoContext);
+
     return (
-        <Container className="flex items-center justify-center">
-            <table className="table-auto border-collapse border border-slate-400">
-                <thead>
-                <tr>
-                    <TitleHeader
-                        className="flex items-center justify-between"
-                    >
+        <Container className="">
+            <CalendarWrap className="grid grid-cols-7 mx-auto table-auto">
+                <div className="col-span-7 flex items-center justify-between">
+                    <TitleHeader className="my-auto">
                         <Title>{title}</Title>
                     </TitleHeader>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th>
+
+                    <div className={'flex items-center'}>
                         <MonthSelector>
                             <ul className="inline-flex -space-x-px text-sm">
                                 <li>
@@ -103,11 +95,10 @@ const TodoCalendar = () => {
                                 </li>
                             </ul>
                         </MonthSelector>
-                    </th>
-                    <th>
-                        <MonthSelector>
+
+                        <MonthSelector className="mx-2">
                             <ul className="inline-flex -space-x-px text-sm">
-                                <li>
+                                <li className="mx-1">
                                     <Button
                                         label="Prev"
                                         className="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -123,45 +114,47 @@ const TodoCalendar = () => {
                                 </li>
                             </ul>
                         </MonthSelector>
-                    </th>
-                </tr>
-                <tr>
-                    <DayHeader className="border border-slate-300">Mon</DayHeader>
-                    <DayHeader className="border border-slate-300">Tue</DayHeader>
-                    <DayHeader className="border border-slate-300">Wed</DayHeader>
-                    <DayHeader className="border border-slate-300">Thu</DayHeader>
-                    <DayHeader className="border border-slate-300">Fri</DayHeader>
-                    <DayHeader className="border border-slate-300">Sat</DayHeader>
-                    <DayHeader className="border border-slate-300">Sun</DayHeader>
-                </tr>
-                </thead>
-                <tbody>
-                {chunks.map((row: number[], i: number) => {
+                    </div>
+                </div>
+
+                <DayHeader className="border-t border-l border-slate-300">Mon</DayHeader>
+                <DayHeader className="border-t border-l border-slate-300">Tue</DayHeader>
+                <DayHeader className="border-t border-l border-slate-300">Wed</DayHeader>
+                <DayHeader className="border-t border-l border-slate-300">Thu</DayHeader>
+                <DayHeader className="border-t border-l border-slate-300">Fri</DayHeader>
+                <DayHeader className="border-t border-l border-slate-300">Sat</DayHeader>
+                <DayHeader className="border-t border-x border-slate-300">Sun</DayHeader>
+
+                {dayIndexes.map((x: number, i: number) => {
+                    const cellDate = startingDate.clone().add(x, 'days')
+                    const cellDay = cellDate.format('D')
+                    const dateKey = cellDate.format('YYYY-MM-DD')
                     return (
-                        <tr key={`row-${i}`}>
-                            {row.map((x: number, j: number) => {
-                                const cellDate = startingDate.clone().add(x, 'days')
-                                const cellDay = cellDate.format('DD')
-                                const dateKey = cellDate.format('YYYY-MM-DD')
-                                return (
-                                    <DayCell className="border border-slate-300" key={`col-${j}`}>
-                                        <DayWarp>
-                                            <Day>
-                                                {cellDay}
-                                            </Day>
-                                            <TodoList dateKey={dateKey}/>
-                                            {<TodoModalButton dateKey={dateKey}/>}
-                                        </DayWarp>
-                                        <ModalWarp>
-                                            {dateKey !== '' && <TodoModal dateKey={dateKey}/>}
-                                        </ModalWarp>
-                                    </DayCell>)
-                            })}
-                        </tr>
-                    )
+                        <DayCell
+                            className={i % 7 === 6 ? 'border-t border-b border-x border-slate-300' : 'border-t border-b border-l border-slate-300'}
+                            key={`col-${i}`}
+                            onClick={e =>  {
+                                e.preventDefault()
+                                e.preventDefault()
+                                return openModal({inputDateKey: dateKey})
+                            }}
+                        >
+                            <DayWarp>
+                                <Day className={'w-100'}>
+                                    {cellDay}
+                                </Day>
+                                <TodoList dateKey={dateKey}/>
+                            </DayWarp>
+                            <ModalWarp>
+                                {
+                                    <TodoModal show={dateKey !== '' && modalKeyMap.inputDateKey === dateKey}>
+                                        <TodoInput dateKey={dateKey}/>
+                                    </TodoModal>
+                                }
+                            </ModalWarp>
+                        </DayCell>)
                 })}
-                </tbody>
-            </table>
+            </CalendarWrap>
         </Container>
     );
 }

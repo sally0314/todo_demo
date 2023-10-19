@@ -10,22 +10,30 @@ export interface Todo {
     readonly description?: string;
 }
 
+export interface ModalKeyMap {
+    inputDateKey: string;
+    showTodoId: string;
+}
+
 interface Context {
     readonly todos: Map<string, Todo[]>;
-    readonly showToDoInput: string;
-    readonly openShowToDoInput: (dateKey: string) => void;
-    readonly closeShowToDoInput: () => void;
+    readonly modalKeyMap: ModalKeyMap;
+    readonly openModal: (key: object) => void;
+    readonly closeModal: () => void;
     readonly onAdd: (todo: Todo) => void;
     readonly onDelete: (todo: Todo) => void;
 }
 
 export const TodoContext = createContext<Context>({
     todos: new Map(),
-    showToDoInput: '',
-    /* eslint-disable @typescript-eslint/no-empty-function */
-    openShowToDoInput: (): void => {
+    modalKeyMap: {
+        inputDateKey: '',
+        showTodoId: '',
     },
-    closeShowToDoInput: (): void => {
+    /* eslint-disable @typescript-eslint/no-empty-function */
+    openModal: (): void => {
+    },
+    closeModal: (): void => {
     },
     onAdd: (): void => {
     },
@@ -39,11 +47,15 @@ interface Props {
 }
 
 export const TodoContextProvider = ({children}: Props) => {
+    const initialModalKeyMap = {
+        inputDateKey: '',
+        showTodoId: ''
+    }
     const [todos, setTodos] = useState<Map<string, Todo[]>>(new Map());
-    const [showToDoInput, setShowToDoInput] = useState<string>('');
+    const [modalKeyMap, setModalKeyMap] = useState<ModalKeyMap>(initialModalKeyMap);
 
-    const openShowToDoInput = (dateKey: string) => setShowToDoInput(dateKey)
-    const closeShowToDoInput = () => setShowToDoInput('')
+    const openModal = (key: object) => setModalKeyMap({...modalKeyMap, ...key})
+    const closeModal = () => setModalKeyMap(initialModalKeyMap)
 
     const onAdd = (todo: Todo) => {
         if (todo.title.trim() === '') {
@@ -71,9 +83,9 @@ export const TodoContextProvider = ({children}: Props) => {
         <TodoContext.Provider
             value={{
                 todos,
-                showToDoInput,
-                openShowToDoInput,
-                closeShowToDoInput,
+                modalKeyMap,
+                openModal,
+                closeModal,
                 onAdd,
                 onDelete,
             }}>

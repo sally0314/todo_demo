@@ -1,65 +1,41 @@
 import styled from "@emotion/styled";
 import Input from 'components/Input';
 import Button from 'components/Button';
-import React, {useState} from 'react';
-import {Todo} from "contexts/TodoContext";
+import React, {useContext, useState} from 'react';
+import {Todo, TodoContext} from "contexts/TodoContext";
 import {Title} from "components/Title";
-import dayjs, {Dayjs} from "dayjs";
+import dayjs from "dayjs";
 
 const Container = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
 `;
 
-const Background = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgb(0 0 0 / 2%);
-`;
-
-const Contents = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background-color: #ffffff;
-  padding: 32px;
-  border-radius: 8px;
-  z-index: 1;
-`;
-
-const InputContainer = styled.div`
+const Body = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 `;
-
 
 interface Props {
-    readonly date: Dayjs;
-    readonly onAdd?: (todo: Todo) => void;
+    readonly dateKey: string;
     readonly onClose?: () => void;
 }
 
-const TodoInput = ({date, onAdd, onClose}: Props) => {
+const TodoInput = ({dateKey, onClose}: Props) => {
+    const {onAdd, closeModal} = useContext(TodoContext);
+
+    const addToDo = (todo: Todo) => {
+        onAdd(todo);
+        closeModal();
+    }
+
     const [newTodo, setNewTodo] = useState<Todo>({
-        date,
+        date: dayjs(dateKey),
         title: '',
         description: '',
         createdAt: dayjs(),
     });
-
-    //console.log('newTodo', newTodo)
 
     const setNewTodoTitle = (title: string) => {
         setNewTodo((prev) => {
@@ -74,19 +50,27 @@ const TodoInput = ({date, onAdd, onClose}: Props) => {
     }
 
     return (
-        <Container>
-            <Background/>
-            <Contents>
-                <Title label="할 일 추가"/>
-                <InputContainer>
-                    <Input placeholder="제목 추가 (필수)" onChange={(e) => (setNewTodoTitle(e.target.value))}/>
-                    <Input placeholder="설명 추가 (옵션)" onChange={(e) => (setNewTodoDescription(e.target.value))}/>
-                    <div className="flex items-center justify-center">
-                        <Button label="추가" color="#98a7ff" onClick={() => (onAdd && newTodo && onAdd(newTodo))}/>
-                        {onClose && <Button label="취소" onClick={() => onClose()}/>}
-                    </div>
-                </InputContainer>
-            </Contents>
+        <Container onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+        }}>
+            <Title label={`할 일 추가 (${newTodo.date.format('YYYY-MM-DD')})`}/>
+            <Body>
+                <Input placeholder="제목 추가 (필수)" onChange={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    return setNewTodoTitle(e.target.value)
+                }}/>
+                <Input placeholder="설명 추가 (옵션)" onChange={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    return setNewTodoDescription(e.target.value)
+                }}/>
+                <div className="flex items-center justify-center">
+                    <Button label="추가" color="#98a7ff" onClick={() => (addToDo(newTodo))}/>
+                    {onClose && <Button label="취소" onClick={onClose} className={'ml-2'}/>}
+                </div>
+            </Body>
         </Container>
     );
 }
