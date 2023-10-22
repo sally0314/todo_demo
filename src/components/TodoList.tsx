@@ -1,19 +1,10 @@
-import styled from "@emotion/styled";
+import React from "react";
 import TodoItem from "components/TodoItem";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {TodoContext} from "contexts/TodoContext";
 import TodoShow from "./TodoShow";
 import TodoModal from "./TodoCalendar/TodoModal";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ItemWrap = styled.div`
-  margin-top: 0.1rem;
-  margin-bottom: 0.1rem;
-`
+import {PopupTodoList} from "./PopupTodoList";
 
 interface Props {
     readonly dateKey: string;
@@ -25,11 +16,19 @@ const TodoList = ({dateKey = ''}: Props) => {
     const items = todos.get(dateKey) || []
     const remains = items.length > limit ? items.slice(limit, items.length) : []
     const hasMore = remains.length > 0
+    const [popupTodo, setPopupTodo] = useState(false);
+    const showMoreList = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.preventDefault()
+        e.stopPropagation()
+        setPopupTodo(true)
+    }
+
     return (
-        <Container>
+        <div className={'flex flex-col'}>
             {([...items].splice(0, 5))
                 .map((todo) => (
-                    <ItemWrap key={todo.id}>
+                    <div className={'my-px'}
+                        key={todo.id}>
                         <TodoItem todo={todo} onClick={
                             () => (openModal({showTodoId: todo.id}))}/>
                         {
@@ -37,13 +36,21 @@ const TodoList = ({dateKey = ''}: Props) => {
                                 <TodoShow todo={todo}/>
                             </TodoModal>
                         }
-                    </ItemWrap>
+                    </div>
                 ))}
             {
                 hasMore &&
-                <div>{`${remains.length} more`}</div>
+                <>
+                    <div
+                        className={'text-xs hover:underline'}
+                        onClick={(e) => showMoreList(e)}
+                    >
+                        {`${remains.length} more`}
+                    </div>
+                    <PopupTodoList show={popupTodo} items={items} onClose={() => setPopupTodo(!popupTodo)} />
+                </>
             }
-        </Container>
+        </div>
     );
 }
 

@@ -15,8 +15,11 @@
     * ESLint
     ### `npm install --save-dev eslint`
 
-    * emotion
-    ### `npm install --save @emotion/react @emotion/styled`
+    ~~* emotion~~
+    ~~### `npm install --save @emotion/react @emotion/styled`~~
+
+    * Tailwind Element
+    ### `npm install tw-elements`
 
 
 * 실행
@@ -58,3 +61,5 @@
     * Prettier https://prettier.io/
     * ESLint https://eslint.org/
     * emotion https://emotion.sh/docs/introduction
+    * tailwind https://tailwindcss.com/docs
+    * tw-element https://tw-elements.com/docs

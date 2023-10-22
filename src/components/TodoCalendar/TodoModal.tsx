@@ -1,37 +1,5 @@
 import {cloneElement, ReactElement, useContext} from 'react';
 import {TodoContext} from 'contexts/TodoContext';
-import styled from "@emotion/styled";
-
-const Container = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Background = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgb(0 0 0 / 2%);
-`;
-
-const ModalContent = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background-color: #ffffff;
-  padding: 32px;
-  border-radius: 8px;
-  z-index: 1;
-`;
 
 interface Props {
     readonly show: boolean;
@@ -45,14 +13,13 @@ const TodoModal = ({show, children}: Props) => {
         <>
             {
                 show &&
-                <Container>
-                    <Background/>
-                    <ModalContent>
+                <div className={'fixed left-0 top-0 h-full w-full overflow-y-auto overflow-x-hidden outline-none bg-neutral-500 z-50'}>
+                    <div className={'flex items-center justify-center flex-col bg-white p-8 min-[500px]:mx-auto min-[500px]:mt-56 min-[500px]:max-w-[800px]'}>
                         {cloneElement(children, {
                             onClose: closeModal,
                         })}
-                    </ModalContent>
-                </Container>
+                    </div>
+                </div>
             }
         </>
     );

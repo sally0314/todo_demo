@@ -1,24 +1,18 @@
-import styled from "@emotion/styled";
 import React from "react";
-
-const Container = styled.input`
-    font-size: 1rem;
-    margin-bottom: 8px;
-    padding: 8px;
-    min-width: 500px;
-    width: 700px;
-`;
 
 interface Props {
     readonly placeholder?: string;
     readonly onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;            // optional(default: undefinded)
+    readonly disabled?: boolean;
 }
 
-const Input = ({ placeholder, onChange }: Props) => {
-    return <Container
-        placeholder = {placeholder}
-        onChange = {(e) => onChange && onChange(e)}
-    />;
+const Input = ({ placeholder, onChange, disabled=false }: Props) => {
+    return (<input
+        className={'text-base my-2 p-2 min-w-[100px] w-[700px] border' + (disabled ? ' border-gray-200':' border-gray-400')}
+        placeholder={placeholder}
+        onChange={(e) => onChange && onChange(e)}
+        disabled={disabled}
+    />);
 };
 
 export default Input;
