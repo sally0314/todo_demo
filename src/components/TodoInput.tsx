@@ -1,21 +1,7 @@
-import styled from "@emotion/styled";
 import Input from 'components/Input';
-import Button from 'components/Button';
 import React, {useContext, useState} from 'react';
 import {Todo, TodoContext} from "contexts/TodoContext";
-import {Title} from "components/Title";
 import dayjs from "dayjs";
-
-const Container = styled.div`
-
-`;
-
-const Body = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-`;
 
 interface Props {
     readonly dateKey: string;
@@ -26,6 +12,10 @@ const TodoInput = ({dateKey, onClose}: Props) => {
     const {onAdd, closeModal} = useContext(TodoContext);
 
     const addToDo = (todo: Todo) => {
+        if(todo.title === '') {
+            alert('제목을 입력해주세요.');
+            return;
+        }
         onAdd(todo);
         closeModal();
     }
@@ -50,12 +40,39 @@ const TodoInput = ({dateKey, onClose}: Props) => {
     }
 
     return (
-        <Container onClick={(e) => {
+        <div
+            className={'flex w-full flex-col p-4'}
+            onClick={(e) => {
             e.preventDefault()
             e.stopPropagation()
-        }}>
-            <Title label={`할 일 추가 (${newTodo.date.format('YYYY-MM-DD')})`}/>
-            <Body>
+        }}
+        >
+            {/* title */}
+            <div className={'flex flex-shrink-0 items-center justify-between rounded-t-md'}>
+                <h5 className={'center text-xl font-medium leading-normal'}>
+                    {`할 일 추가 (${newTodo.date.format('YYYY-MM-DD')})`}
+                </h5>
+                <button
+                    type="button"
+                    className={'box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none'}
+                    onClick={onClose}
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className={'h-6 w-6'}>
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            {/* title */}
+            <div className={'flex flex-col items-center justify-center my-8'}>
                 <Input placeholder="제목 추가 (필수)" onChange={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
@@ -66,12 +83,17 @@ const TodoInput = ({dateKey, onClose}: Props) => {
                     e.stopPropagation()
                     return setNewTodoDescription(e.target.value)
                 }}/>
-                <div className="flex items-center justify-center">
-                    <Button label="추가" color="#98a7ff" onClick={() => (addToDo(newTodo))}/>
-                    {onClose && <Button label="취소" onClick={onClose} className={'ml-2'}/>}
-                </div>
-            </Body>
-        </Container>
+            </div>
+            <div className={'flex items-center justify-center'}>
+                <button
+                    type="button"
+                    className={'inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-s font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]'}
+                    onClick={() => (addToDo(newTodo))}>
+                    추가
+                </button>
+            </div>
+        </div>
+
     );
 }
 
