@@ -1,19 +1,19 @@
-import styled from "@emotion/styled";
+// import styled from "@emotion/styled";
 import Button from 'components/Button';
 import React, {useContext} from 'react';
 import {Todo, TodoContext} from "contexts/TodoContext";
 import {Title} from "components/Title";
 
-const Container = styled.div`
-
-`;
-
-const Body = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-`;
+// const Container = styled.div`
+//
+// `;
+//
+// const Body = styled.div`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   flex-direction: column;
+// `;
 
 interface Props {
     readonly todo: Todo;
@@ -29,16 +29,16 @@ const TodoShow = ({todo, onClose}: Props) => {
     }
 
     return (
-        <Container>
+        <div className={'container-wrap'}>
             <Title label={`할 일 (${todo.date.format('YYYY-MM-DD')})`}/>
-            <Body>
+            <div className={'table-body flex align-middle justify-center flex-col'}>
                 <div>
                     {`${todo.title}`}
                 </div>
                 <div>
                     {`${todo.description}`}
                 </div>
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center my-2">
                     <Button label="삭제" color="#98a7ff" onClick={(e) => {
                         e.preventDefault()
                         e.stopPropagation()
@@ -50,8 +50,8 @@ const TodoShow = ({todo, onClose}: Props) => {
                         return onClose()
                     }} className={'ml-2'}/>}
                 </div>
-            </Body>
-        </Container>
+            </div>
+        </div>
     );
 }
 

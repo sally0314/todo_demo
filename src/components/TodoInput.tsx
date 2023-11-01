@@ -1,4 +1,3 @@
-import styled from "@emotion/styled";
 import Input from 'components/Input';
 import Button from 'components/Button';
 import React, {useContext, useState} from 'react';
@@ -6,16 +5,16 @@ import {Todo, TodoContext} from "contexts/TodoContext";
 import {Title} from "components/Title";
 import dayjs from "dayjs";
 
-const Container = styled.div`
+// const Container = styled.div`
+//
+// `;
 
-`;
-
-const Body = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-`;
+// const Body = styled.div`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   flex-direction: column;
+// `;
 
 interface Props {
     readonly dateKey: string;
@@ -50,12 +49,12 @@ const TodoInput = ({dateKey, onClose}: Props) => {
     }
 
     return (
-        <Container onClick={(e) => {
+        <div className={'container-wrap'} onClick={(e) => {
             e.preventDefault()
             e.stopPropagation()
         }}>
             <Title label={`할 일 추가 (${newTodo.date.format('YYYY-MM-DD')})`}/>
-            <Body>
+            <div className={'body-wrap flex justify-center align-middle flex-col'}>
                 <Input placeholder="제목 추가 (필수)" onChange={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
@@ -70,8 +69,8 @@ const TodoInput = ({dateKey, onClose}: Props) => {
                     <Button label="추가" color="#98a7ff" onClick={() => (addToDo(newTodo))}/>
                     {onClose && <Button label="취소" onClick={onClose} className={'ml-2'}/>}
                 </div>
-            </Body>
-        </Container>
+            </div>
+        </div>
     );
 }
 

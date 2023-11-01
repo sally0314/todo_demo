@@ -1,19 +1,19 @@
-import styled from "@emotion/styled";
+// import styled from "@emotion/styled";
 import TodoItem from "components/TodoItem";
 import {useContext} from "react";
 import {TodoContext} from "contexts/TodoContext";
 import TodoShow from "./TodoShow";
 import TodoModal from "./TodoCalendar/TodoModal";
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+// const Container = styled.div`
+//   display: flex;
+//   flex-direction: column;
+// `;
 
-const ItemWrap = styled.div`
-  margin-top: 0.1rem;
-  margin-bottom: 0.1rem;
-`
+// const ItemWrap = styled.div`
+//   margin-top: 0.1rem;
+//   margin-bottom: 0.1rem;
+// `
 
 interface Props {
     readonly dateKey: string;
@@ -26,10 +26,10 @@ const TodoList = ({dateKey = ''}: Props) => {
     const remains = items.length > limit ? items.slice(limit, items.length) : []
     const hasMore = remains.length > 0
     return (
-        <Container>
+        <div className={'container-wrap flex flex-col'}>
             {([...items].splice(0, 5))
                 .map((todo) => (
-                    <ItemWrap key={todo.id}>
+                    <div className={'item-wrap my-0.5'} key={todo.id}>
                         <TodoItem todo={todo} onClick={
                             () => (openModal({showTodoId: todo.id}))}/>
                         {
@@ -37,13 +37,13 @@ const TodoList = ({dateKey = ''}: Props) => {
                                 <TodoShow todo={todo}/>
                             </TodoModal>
                         }
-                    </ItemWrap>
+                    </div>
                 ))}
             {
                 hasMore &&
                 <div>{`${remains.length} more`}</div>
             }
-        </Container>
+        </div>
     );
 }
 

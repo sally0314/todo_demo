@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+// import styled from "@emotion/styled";
 import dayjs, {Dayjs} from 'dayjs';
 import {TodoCalendarContext} from "../contexts/TodoCalendarContext";
 import {useContext} from "react";
@@ -8,48 +8,49 @@ import TodoList from "./TodoList";
 import {TodoContext} from "../contexts/TodoContext";
 import TodoInput from "./TodoInput";
 
-const Container = styled.div`
-  width: 100%;
-`
+// const Container = styled.div`
+//   width: 100%;
+// `
 
-const CalendarWrap = styled.div`
-  //max-width: 1200px;
-`
+// const CalendarWrap = styled.div`
+//   //max-width: 1200px;
+// `
 
-const TitleHeader = styled.div`
-  height: 3rem;
-`
+// const TitleHeader = styled.div`
+//   height: 3rem;
+// `
 
-const Title = styled.div`
-  margin-left: 2rem;
-  font-size: 1.4rem;
-`
+// const Title = styled.div`
+//   margin-left: 2rem;
+//   font-size: 1.4rem;
+// `
 
-const MonthSelector = styled.nav`
-  margin-left: auto;
-`
+// const MonthSelector = styled.nav`
+//   margin-left: auto;
+// `
 
-const DayHeader = styled.div`
-  text-align: center;
-  border-bottom: 0;
-`
-const DayCell = styled.div`
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  border-top: 0;
-`
+// const DayHeader = styled.div`
+//   text-align: center;
+//   border-bottom: 0;
+// `
 
-const DayWarp = styled.div`
-  height: 10rem;
-  margin-top: 0.5rem;
-`
-const Day = styled.div`
-  text-align: right;
-`
+// const DayCell = styled.div`
+//   padding-left: 0.5rem;
+//   padding-right: 0.5rem;
+//   border-top: 0;
+// `
 
-const ModalWarp = styled.div`
-  padding-top: 1rem;
-`
+// const DayWarp = styled.div`
+//   height: 10rem;
+//   margin-top: 0.5rem;
+// `
+// const Day = styled.div`
+//   text-align: right;
+// `
+
+// const ModalWarp = styled.div`
+//   padding-top: 1rem;
+// `
 
 const TodoCalendar = () => {
     const {settings, goPrev, goToday, goNext} = useContext(TodoCalendarContext)
@@ -76,15 +77,15 @@ const TodoCalendar = () => {
     const {modalKeyMap, openModal} = useContext(TodoContext);
 
     return (
-        <Container className="">
-            <CalendarWrap className="grid grid-cols-7 mx-auto table-auto">
+        <div className="container-wrap max-w-full">
+            <div className="calendar-wrap grid grid-cols-7 mx-auto table-auto">
                 <div className="col-span-7 flex items-center justify-between">
-                    <TitleHeader className="my-auto">
-                        <Title>{title}</Title>
-                    </TitleHeader>
+                    <div className="title-header h-12 my-auto">
+                        <div className={'title ml-12 text-2xl'}>{title}</div>
+                    </div>
 
                     <div className={'flex items-center'}>
-                        <MonthSelector>
+                        <div className={'month-selector ml-auto'}>
                             <ul className="inline-flex -space-x-px text-sm">
                                 <li>
                                     <Button
@@ -94,9 +95,9 @@ const TodoCalendar = () => {
                                     />
                                 </li>
                             </ul>
-                        </MonthSelector>
+                        </div>
 
-                        <MonthSelector className="mx-2">
+                        <div className={'month-selector ml-auto mx-2'}>
                             <ul className="inline-flex -space-x-px text-sm">
                                 <li className="mx-1">
                                     <Button
@@ -113,49 +114,49 @@ const TodoCalendar = () => {
                                     />
                                 </li>
                             </ul>
-                        </MonthSelector>
+                        </div>
                     </div>
                 </div>
 
-                <DayHeader className="border-t border-l border-slate-300">Mon</DayHeader>
-                <DayHeader className="border-t border-l border-slate-300">Tue</DayHeader>
-                <DayHeader className="border-t border-l border-slate-300">Wed</DayHeader>
-                <DayHeader className="border-t border-l border-slate-300">Thu</DayHeader>
-                <DayHeader className="border-t border-l border-slate-300">Fri</DayHeader>
-                <DayHeader className="border-t border-l border-slate-300">Sat</DayHeader>
-                <DayHeader className="border-t border-x border-slate-300">Sun</DayHeader>
+                <div className="day-header text-center border-t border-l border-slate-300">Mon</div>
+                <div className="day-header text-center border-t border-l border-slate-300">Tue</div>
+                <div className="day-header text-center border-t border-l border-slate-300">Wed</div>
+                <div className="day-header text-center border-t border-l border-slate-300">Thu</div>
+                <div className="day-header text-center border-t border-l border-slate-300">Fri</div>
+                <div className="day-header text-center border-t border-l border-slate-300">Sat</div>
+                <div className="day-header text-center border-t border-x border-slate-300">Sun</div>
 
                 {dayIndexes.map((x: number, i: number) => {
                     const cellDate = startingDate.clone().add(x, 'days')
                     const cellDay = cellDate.format('D')
                     const dateKey = cellDate.format('YYYY-MM-DD')
                     return (
-                        <DayCell
-                            className={i % 7 === 6 ? 'border-t border-b border-x border-slate-300' : 'border-t border-b border-l border-slate-300'}
+                        <div
+                            className={'day-cell px-2 border-t-0 border-t border-b border-slate-300 ' + (i % 7 === 6 ? 'border-x' : 'border-l')}
                             key={`col-${i}`}
-                            onClick={e =>  {
+                            onClick={e => {
                                 e.preventDefault()
                                 e.preventDefault()
                                 return openModal({inputDateKey: dateKey})
                             }}
                         >
-                            <DayWarp>
-                                <Day className={'w-100'}>
+                            <div className={'day-wrap mt-2 h-40'}>
+                                <div className={'day text-right w-100'}>
                                     {cellDay}
-                                </Day>
+                                </div>
                                 <TodoList dateKey={dateKey}/>
-                            </DayWarp>
-                            <ModalWarp>
+                            </div>
+                            <div className={'modal-wrap pt-4'}>
                                 {
                                     <TodoModal show={dateKey !== '' && modalKeyMap.inputDateKey === dateKey}>
                                         <TodoInput dateKey={dateKey}/>
                                     </TodoModal>
                                 }
-                            </ModalWarp>
-                        </DayCell>)
+                            </div>
+                        </div>)
                 })}
-            </CalendarWrap>
-        </Container>
+            </div>
+        </div>
     );
 }
 
