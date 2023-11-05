@@ -22,6 +22,7 @@ interface Context {
     readonly closeModal: () => void;
     readonly onAdd: (todo: Todo) => void;
     readonly onDelete: (todo: Todo) => void;
+    readonly onEdit: (todo: Todo) => void;
 }
 
 export const TodoContext = createContext<Context>({
@@ -38,6 +39,8 @@ export const TodoContext = createContext<Context>({
     onAdd: (): void => {
     },
     onDelete: (): void => {
+    },
+    onEdit: (): void => {
     },
     /* eslint-enable @typescript-eslint/no-empty-function */
 });
@@ -79,6 +82,24 @@ export const TodoContextProvider = ({children}: Props) => {
         setTodos((new Map(todos)).set(dateKey, [...(todos.get(dateKey) || [])].filter(item => item.id !== todo.id)));
     };
 
+    const onEdit = (todo: Todo) => {
+        if (todo.title.trim() === '') {
+            return;
+        }
+
+        const newTodoItem: Todo = {
+            id: todo.id,
+            date: todo.date,
+            title: todo.title,
+            description: todo.description,
+            createdAt: dayjs(),
+        };
+
+
+        const dateKey = newTodoItem.date.format('YYYY-MM-DD')
+        setTodos((new Map(todos)).set(dateKey, [...(todos.get(dateKey) || []).filter(item => item.id !== todo.id), newTodoItem]));
+    };
+
     return (
         <TodoContext.Provider
             value={{
@@ -88,6 +109,7 @@ export const TodoContextProvider = ({children}: Props) => {
                 closeModal,
                 onAdd,
                 onDelete,
+                onEdit,
             }}>
             {children}
         </TodoContext.Provider>
