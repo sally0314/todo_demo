@@ -3,6 +3,7 @@ import dayjs, {Dayjs} from "dayjs";
 
 export interface TodoCalendarSettings {
     currentDate?: Dayjs
+    mondayFirst: boolean
 }
 
 interface Context {
@@ -14,11 +15,12 @@ interface Context {
 
 class SimpleTodoCalendarSettings implements TodoCalendarSettings {
     currentDate?: Dayjs
+    mondayFirst: boolean
 
-    constructor(currentDate?: Dayjs) {
+    constructor(currentDate?: Dayjs, mondayFirst: boolean = true) {
         this.currentDate = currentDate
+        this.mondayFirst = mondayFirst
     }
-
 }
 
 export const TodoCalendarContext = createContext<Context>({
@@ -55,7 +57,6 @@ export const TodoCalendarContextProvider = ({children}: Props) => {
         const newDate = dayjs()
         setCurrentDate(newDate)
     };
-
 
     return (
         <TodoCalendarContext.Provider
