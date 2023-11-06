@@ -1,16 +1,17 @@
 import dayjs, {Dayjs} from 'dayjs';
 import isToday from 'dayjs/plugin/isToday'
 import {TodoCalendarContext} from "../contexts/TodoCalendarContext";
-import {useContext} from "react";
 import TodoModal from "./TodoCalendar/TodoModal";
+import {useContext} from "react";
 import TodoList from "./TodoList";
 import {TodoContext} from "../contexts/TodoContext";
 import TodoInput from "./TodoInput";
+import TodoConfig from "./TodoCalendar/TodoConfig";
 
 dayjs.extend(isToday)
 
 const TodoCalendar = () => {
-    const {settings, goPrev, goToday, goNext} = useContext(TodoCalendarContext)
+    const { settings, goPrev, goToday, goNext } = useContext(TodoCalendarContext)
     const workDate: Dayjs = settings.currentDate || dayjs()
     const mondayFirst: boolean = settings.mondayFirst
     const title: string = workDate.clone().format('MMMM YYYY')
@@ -40,7 +41,7 @@ const TodoCalendar = () => {
 
     const startingDate = dayjs(workDate.clone().format('YYYY-MM-01'));
 
-    const {modalKeyMap, openModal} = useContext(TodoContext);
+    const { modalKeyMap, openModal } = useContext(TodoContext);
 
     return (
         <div className={'w-full'}>
@@ -75,6 +76,9 @@ const TodoCalendar = () => {
                     <div className={'flex items-center'}>
                         <nav>
                             <ul className={'inline-flex -space-x-px text-sm'}>
+                                <li>
+                                    <TodoConfig type={'button'}/>
+                                </li>
                                 <li>
                                     <button
                                         type="button"
@@ -111,7 +115,7 @@ const TodoCalendar = () => {
                             onClick={e => {
                                 e.preventDefault()
                                 e.stopPropagation()
-                                return openModal({inputDateKey: dateKey})
+                                return openModal({ inputDateKey: dateKey })
                             }}
                         >
                             <div className={'h-40 mt-2'}>
@@ -135,6 +139,7 @@ const TodoCalendar = () => {
                         </div>)
                 })}
             </div>
+            <TodoConfig type={'modal'}/>
         </div>
     );
 }
