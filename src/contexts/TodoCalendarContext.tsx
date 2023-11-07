@@ -7,25 +7,23 @@ export interface TodoCalendarSettings {
 }
 
 interface Context {
-    readonly settings: TodoCalendarSettings;
-    readonly goPrev: () => void;
-    readonly goToday: () => void;
-    readonly goNext: () => void;
-}
-
-class SimpleTodoCalendarSettings implements TodoCalendarSettings {
-    currentDate?: Dayjs
-    mondayFirst: boolean
-
-    constructor(currentDate?: Dayjs, mondayFirst: boolean = true) {
-        this.currentDate = currentDate
-        this.mondayFirst = mondayFirst
-    }
+    readonly settings: TodoCalendarSettings
+    readonly setMondayFirst: (value: boolean) => void
+    readonly goPrev: () => void
+    readonly goToday: () => void
+    readonly goNext: () => void
 }
 
 export const TodoCalendarContext = createContext<Context>({
-    settings: new SimpleTodoCalendarSettings(),
+    settings: {
+        currentDate: dayjs(),
+        mondayFirst: true,
+    },
     /* eslint-disable @typescript-eslint/no-empty-function */
+    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+    setMondayFirst: (value: boolean): void => {
+
+    },
     goPrev: (): void => {
     },
     goToday: (): void => {
@@ -42,6 +40,12 @@ interface Props {
 
 export const TodoCalendarContextProvider = ({children}: Props) => {
     const [currentDate, setCurrentDate] = useState<Dayjs>(dayjs());
+    const [mondayFirst, setMondayFirst] = useState<boolean>(true);
+
+    const settings = {
+        currentDate,
+        mondayFirst,
+    }
 
     const goPrev = () => {
         const newDate = dayjs(currentDate).subtract(1, 'month')
@@ -61,7 +65,8 @@ export const TodoCalendarContextProvider = ({children}: Props) => {
     return (
         <TodoCalendarContext.Provider
             value={{
-                settings: new SimpleTodoCalendarSettings(currentDate),
+                settings,
+                setMondayFirst,
                 goPrev,
                 goNext,
                 goToday,

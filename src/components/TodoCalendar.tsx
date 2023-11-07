@@ -28,13 +28,13 @@ const TodoCalendar = () => {
     if (mondayFirst) {
         days.push(`${days.shift()}`)
     }
-    const dayOf1st = mondayFirst ? dayOf1stForMondayFirst : dayOf1stForSundayFirst
-    const dayOfLast = mondayFirst ? dayOfLastForMondayFirst : dayOfLastForSundayFirst
+    const dayOf1st: number = mondayFirst ? dayOf1stForMondayFirst : dayOf1stForSundayFirst
+    const dayOfLast: number = mondayFirst ? dayOfLastForMondayFirst : dayOfLastForSundayFirst
 
-    let previousDays = Array(dayOf1st).length
+    let previousDays:number = Array(dayOf1st).length
     const dayIndexes: Array<number> = [...Array(dayOf1st)].map(() => 0 - previousDays--)
-    const remains = 6 - dayOfLast
-    const limits = daysInMonth + remains
+    const remains: number = 6 - dayOfLast
+    const limits: number = daysInMonth + remains
     for (let i: number = 0; i < limits; i++) {
         dayIndexes.push(i)
     }
@@ -77,7 +77,7 @@ const TodoCalendar = () => {
                         <nav>
                             <ul className={'inline-flex -space-x-px text-sm'}>
                                 <li>
-                                    <TodoConfig type={'button'}/>
+                                    <TodoConfig type={'button'} className={'class="block h-9 px-6 py-1"'}/>
                                 </li>
                                 <li>
                                     <button
