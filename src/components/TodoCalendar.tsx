@@ -45,7 +45,7 @@ const TodoCalendar = () => {
 
     return (
         <div className={'w-full'}>
-            <div className={'grid grid-cols-7 mx-auto table-auto'}>
+            <div className={'grid grid-cols-7 mx-auto table-auto min-w-[1200px]'}>
                 <div className={'col-span-7 flex justify-between h-12'}>
                     <div className={'flex my-auto items-start'}>
                         <div>
