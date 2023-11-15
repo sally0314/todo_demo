@@ -3,6 +3,7 @@ import React, {useContext, useState} from 'react';
 import {Todo, TodoContext} from "contexts/TodoContext";
 import dayjs from "dayjs";
 import {Textarea} from "./Textarea";
+import {MiniCalendar} from "./MiniCalendar";
 
 interface Props {
     readonly dateKey: string;
@@ -12,6 +13,7 @@ interface Props {
 
 const TodoInput = ({ dateKey, onClose, todo }: Props) => {
     const {onAdd, onEdit, closeModal} = useContext(TodoContext);
+    const [calendar, setCalendar] = useState(false);
 
     const addToDo = () => {
         if(newTodo.title === '') {
@@ -48,6 +50,11 @@ const TodoInput = ({ dateKey, onClose, todo }: Props) => {
         setNewTodo((prev) => {
             return {...prev, description: description, createdAt: dayjs()};
         });
+    }
+
+    const setDateKey = (date: string) => {
+        setNewTodoDate(date)
+        setCalendar(false)
     }
 
     return (
@@ -88,19 +95,24 @@ const TodoInput = ({ dateKey, onClose, todo }: Props) => {
                     }}/>
                 </div>
                 {/*date*/}
-                <div>
+                <div className={'relative'}>
                     <div className={'inline-block align-top m-2'}>
                         <svg className="w-10 h-10 fill-[#8e8e8e] p-2" viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg">
                             <path d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z"></path>
                         </svg>
                     </div>
                     <Input placeholder={`${newTodo.date.format('YYYY-MM-DD')}`}
-                           disabled={true}
+                           readonly={true}
                            onChange={(e) => {
                                e.preventDefault()
-                                e.stopPropagation()
-                                return setNewTodoDate(e.target.value)
-                           }}/>
+                               e.stopPropagation()
+                               return setNewTodoDate(e.target.value)
+                           }}
+                           onClick={() => setCalendar(true)}
+                    />
+                </div >
+                <div className={'absolute left-[250px] top-[380px]'}>
+                    <MiniCalendar show={calendar} onClose={() => setCalendar(false)} onClick={(d) => setDateKey(d)}/>
                 </div>
                 {/*description*/}
                 <div>

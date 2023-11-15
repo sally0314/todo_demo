@@ -95,9 +95,12 @@ export const TodoContextProvider = ({children}: Props) => {
             createdAt: dayjs(),
         };
 
-
         const dateKey = newTodoItem.date.format('YYYY-MM-DD')
-        setTodos((new Map(todos)).set(dateKey, [...(todos.get(dateKey) || []).filter(item => item.id !== todo.id), newTodoItem]));
+        const _todos = (todos.get(dateKey) || []).map( t => {
+            if (t.id === todo.id ) return newTodoItem
+            else return t
+        })
+        setTodos((new Map(todos)).set(dateKey, _todos ));
     };
 
     return (
