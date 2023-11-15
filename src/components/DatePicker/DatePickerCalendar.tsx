@@ -121,7 +121,7 @@ const DatePickerCalendar = ({ value, onChange }: Props) => {
                                             (<span
                                                 className="w-7 inline-block whitespace-nowrap rounded-full bg-primary-100 py-[0.3rem] px-[0.3em] text-center align-baseline leading-none"
                                             >{cellDay}</span>)
-                                            : <span>{cellDay}</span>
+                                            : <span className={'w-7 inline-block whitespace-nowrap rounded-full hover:bg-primary-100 py-[0.3rem] px-[0.3em] text-center align-baseline leading-none'}>{cellDay}</span>
                                     }
                                 </div>
                             </div>
