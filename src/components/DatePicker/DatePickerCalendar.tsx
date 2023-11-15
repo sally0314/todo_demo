@@ -43,7 +43,7 @@ const DatePickerCalendar = ({ value, onChange }: Props) => {
 
     return (
         <div className={'w-full'}>
-            <div className={'grid grid-cols-7 mx-auto table-auto'}>
+            <div className={'grid grid-cols-7 mx-auto'}>
                 <div className={'col-span-7 flex justify-between h-12'}>
                     <div className={'flex my-auto items-start'}>
                         <div>
@@ -68,7 +68,7 @@ const DatePickerCalendar = ({ value, onChange }: Props) => {
                                 </ul>
                             </nav>
                         </div>
-                        <div className={'flex ml-1 text-xl'}>{title}</div>
+                        <div className={'flex ml-1'}>{title}</div>
                     </div>
 
                     <div className={'flex items-center'}>
@@ -87,11 +87,11 @@ const DatePickerCalendar = ({ value, onChange }: Props) => {
                     </div>
                 </div>
 
-                {days.map((day: string, i: number) => {
+                {days.map((day: string) => {
                     return (
                         <div
                             key={day}
-                            className={(i % 7 === 6 ? 'border-x' : 'border-l') + ' border-t border-slate-300 text-center border-b-0'}
+                            className={'w-8 border-t border-slate-300 text-center border-b-0'}
                         >
                             {day}
                         </div>
@@ -100,16 +100,16 @@ const DatePickerCalendar = ({ value, onChange }: Props) => {
 
                 {dayIndexes.map((x: number, i: number) => {
                     const cellDate = startingDate.clone().add(x, 'days')
-                    const cellDay = cellDate.format('D') === `1` ? cellDate.format('MMM D') : cellDate.format('D')
+                    const cellDay = cellDate.format('D') === `1` ? cellDate.format('D') : cellDate.format('D')
 
                     return (
                         <div
-                            className={(i % 7 === 6 ? 'border-x' : 'border-l') + ' border-t-0 border-b border-slate-300 pl-2 pr-2'}
+                            className={(i % 7 === 6 ? '' : '') + ' border-t-0 border-b border-slate-300 pl-2 pr-2'}
                             key={`col-${i}`}
                         >
-                            <div className={'h-12 mt-2'}>
+                            <div className={'h-12 flex items-center justify-center'}>
                                 <div
-                                    className={((x < 0 || x >= daysInMonth) ? 'italic dark:text-neutral-400 text-[0.95rem]' : '') + ' w-100 text-right'}
+                                    className={' w-100 text-right'}
                                     onClick={(e) => {
                                         e.preventDefault()
                                         e.stopPropagation()
@@ -119,7 +119,7 @@ const DatePickerCalendar = ({ value, onChange }: Props) => {
                                     {
                                         cellDate.diff(value) === 0 ?
                                             (<span
-                                                className="inline-block whitespace-nowrap rounded-full bg-primary-100 py-[0.5rem] px-[0.65em] text-center align-baseline text-[1.25rem] font-bold leading-none text-primary-700"
+                                                className="w-7 inline-block whitespace-nowrap rounded-full bg-primary-100 py-[0.3rem] px-[0.3em] text-center align-baseline leading-none"
                                             >{cellDay}</span>)
                                             : <span>{cellDay}</span>
                                     }
