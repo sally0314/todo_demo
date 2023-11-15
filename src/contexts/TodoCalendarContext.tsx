@@ -14,7 +14,7 @@ interface Context {
     readonly goNext: () => void
 }
 
-export const TodoCalendarContext = createContext<Context>({
+const ContextBody = {
     settings: {
         currentDate: dayjs(),
         mondayFirst: true,
@@ -31,7 +31,10 @@ export const TodoCalendarContext = createContext<Context>({
     goNext: (): void => {
     },
     /* eslint-enable @typescript-eslint/no-empty-function */
-});
+}
+
+export const TodoCalendarContext = createContext<Context>(ContextBody);
+export const DatePickerContext = createContext<Context>(ContextBody);
 
 interface Props {
     readonly children: JSX.Element | JSX.Element[];
@@ -73,5 +76,43 @@ export const TodoCalendarContextProvider = ({children}: Props) => {
             }}>
             {children}
         </TodoCalendarContext.Provider>
+    );
+};
+
+export const DatePickerContextProvider = ({children}: Props) => {
+    const [currentDate, setCurrentDate] = useState<Dayjs>(dayjs());
+    const [mondayFirst, setMondayFirst] = useState<boolean>(true);
+
+    const settings = {
+        currentDate,
+        mondayFirst,
+    }
+
+    const goPrev = () => {
+        const newDate = dayjs(currentDate).subtract(1, 'month')
+        setCurrentDate(newDate)
+    };
+
+    const goNext = () => {
+        const newDate = dayjs(currentDate).add(1, 'month')
+        setCurrentDate(newDate)
+    };
+
+    const goToday = () => {
+        const newDate = dayjs()
+        setCurrentDate(newDate)
+    };
+
+    return (
+        <DatePickerContext.Provider
+            value={{
+                settings,
+                setMondayFirst,
+                goPrev,
+                goNext,
+                goToday,
+            }}>
+            {children}
+        </DatePickerContext.Provider>
     );
 };

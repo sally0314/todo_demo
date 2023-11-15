@@ -1,7 +1,7 @@
 import dayjs, {Dayjs} from 'dayjs'
 import isToday from 'dayjs/plugin/isToday'
 import {useContext} from 'react'
-import {TodoCalendarContext} from '../../contexts/TodoCalendarContext'
+import {DatePickerContext} from '../../contexts/TodoCalendarContext'
 
 dayjs.extend(isToday)
 
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const DatePickerCalendar = ({ value, onChange }: Props) => {
-    const { settings, goPrev, goToday, goNext } = useContext(TodoCalendarContext)
+    const { settings, goPrev, goToday, goNext } = useContext(DatePickerContext)
     const workDate: Dayjs = settings.currentDate || dayjs()
     const mondayFirst: boolean = settings.mondayFirst
     const title: string = workDate.clone().format('MMMM YYYY')
