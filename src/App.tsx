@@ -1,14 +1,14 @@
 import {TodoContextProvider} from 'contexts/TodoContext';
-import TodoCalendar from "./components/TodoCalendar";
-import {TodoCalendarContextProvider} from "./contexts/TodoCalendarContext";
+import TodoCalendar from "./components/TodoCalendar/TodoCalendar";
+import {CalendarSettingContextProvider} from "./contexts/CalendarSettingContext";
 
 function App() {
     return (
         <div className={'px-44 py-24 items-center justify-center'}>
             <TodoContextProvider>
-                <TodoCalendarContextProvider>
-                        <TodoCalendar/>
-                </TodoCalendarContextProvider>
+                <CalendarSettingContextProvider>
+                    <TodoCalendar/>
+                </CalendarSettingContextProvider>
             </TodoContextProvider>
         </div>
     );

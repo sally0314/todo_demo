@@ -1,7 +1,7 @@
-import React, {useContext} from "react";
-import {TodoCalendarContext} from "../contexts/TodoCalendarContext";
-import dayjs, {Dayjs} from "dayjs";
+import React, {useContext, useState} from "react";
 import isToday from "dayjs/plugin/isToday";
+import {CalendarSettingContext, useCalendars} from "../../contexts/CalendarSettingContext";
+import dayjs from "dayjs";
 
 dayjs.extend(isToday)
 interface Props {
@@ -11,33 +11,16 @@ interface Props {
 }
 
 export const MiniCalendar = ({ show, onClose, onClick }: Props) => {
-    const { settings, goPrev, goNext } = useContext(TodoCalendarContext)
-    const workDate: Dayjs = settings.currentDate || dayjs()
-    const mondayFirst: boolean = settings.mondayFirst
-    const title: string = workDate.clone().format('MMMM YYYY')
-    const daysInMonth: number = workDate.daysInMonth()
-    const dayOf1stForSundayFirst: number = dayjs(workDate.clone().format('YYYY-MM-01')).day()
-    const dayOf1stForMondayFirst: number = (dayOf1stForSundayFirst + 6) % 7
+    const { today } = useContext(CalendarSettingContext)
+    const [ workDate, setWorkDate ] = useState(today)
+    const { days, dayIndexes, daysInMonth,  firstDateOfMonth, title } = useCalendars(workDate)
+    const goPrev = () => {
+        setWorkDate(workDate.subtract(1, 'month'))
+    };
 
-    const dayOfLastForSundayFirst: number = dayjs(workDate.clone().format(`YYYY-MM-${daysInMonth}`)).day()
-    const dayOfLastForMondayFirst: number = (dayOfLastForSundayFirst + 6) % 7
-
-    const days: string[] = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
-
-    if (mondayFirst) {
-        days.push(`${days.shift()}`)
-    }
-    const dayOf1st: number = mondayFirst ? dayOf1stForMondayFirst : dayOf1stForSundayFirst
-    const dayOfLast: number = mondayFirst ? dayOfLastForMondayFirst : dayOfLastForSundayFirst
-    let previousDays:number = Array(dayOf1st).length
-    const dayIndexes: Array<number> = [...Array(dayOf1st)].map(() => 0 - previousDays--)
-    const remains: number = 6 - dayOfLast
-    const limits: number = daysInMonth + remains
-    for (let i: number = 0; i < limits; i++) {
-        dayIndexes.push(i)
-    }
-
-    const startingDate = dayjs(workDate.clone().format('YYYY-MM-01'));
+    const goNext = () => {
+        setWorkDate(workDate.add(1, 'month'))
+    };
 
     return (
         show ?
@@ -106,7 +89,7 @@ export const MiniCalendar = ({ show, onClose, onClick }: Props) => {
                     })}
 
                     {dayIndexes.map((x: number, i: number) => {
-                        const cellDate = startingDate.clone().add(x, 'days')
+                        const cellDate = firstDateOfMonth.clone().add(x, 'days')
                         const cellDay = cellDate.format('D')
                         const dateKey = cellDate.format('YYYY-MM-DD')
 

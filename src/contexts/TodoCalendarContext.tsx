@@ -34,7 +34,7 @@ export const TodoCalendarContext = createContext<Context>({
 });
 
 interface Props {
-    readonly children: JSX.Element | JSX.Element[];
+    readonly children: React.JSX.Element | React.JSX.Element[];
 }
 
 

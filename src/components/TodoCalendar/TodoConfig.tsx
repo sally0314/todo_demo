@@ -2,9 +2,9 @@ import React, {useContext} from 'react'
 import TodoModal from './TodoModal'
 import CloseIconButton from '../Buttons/CloseIconButton'
 import {TodoContext} from '../../contexts/TodoContext'
-import {TodoCalendarContext} from '../../contexts/TodoCalendarContext'
 import {TESelect} from 'tw-elements-react'
 import {SelectData} from 'tw-elements-react/dist/types/forms/Select/types'
+import {CalendarSettingContext, DayOption, StartOfDayOptions} from "../../contexts/CalendarSettingContext";
 
 interface Props {
     readonly type: string
@@ -12,11 +12,8 @@ interface Props {
 }
 
 const TodoConfig = ({ type, className = '' }: Props) => {
-
-    // initTE({ Select });
-
     const { modalKeyMap, openModal, closeModal } = useContext(TodoContext)
-    const { settings, setMondayFirst } = useContext(TodoCalendarContext)
+    const { startDayOption, setStartDayOption } = useContext(CalendarSettingContext)
     const todoConfigId: string = 'TODO_CONFIG_ID'
 
     const openTodoConfig = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -24,11 +21,6 @@ const TodoConfig = ({ type, className = '' }: Props) => {
         e.stopPropagation()
         openModal({ showTodoId: todoConfigId })
     }
-
-    const weeksStartOn: Array<SelectData> = [
-        { text: "Sunday", value: '0' },
-        { text: "Monday", value: '1' },
-    ];
 
     return (
         <div>
@@ -59,12 +51,12 @@ const TodoConfig = ({ type, className = '' }: Props) => {
                             </div>
                             <div className={'w-full mt-4'}>
                                 <TESelect
-                                    data={weeksStartOn}
+                                    data={StartOfDayOptions as Array<SelectData>}
                                     label={'Week starts on'}
-                                    value={settings.mondayFirst ? '1' : '0'}
+                                    value={startDayOption.value}
                                     onValueChange={(e: SelectData | SelectData[]) => {
                                         // @see https://stackoverflow.com/questions/44321326/property-value-does-not-exist-on-type-eventtarget-in-typescript
-                                        setMondayFirst((e as SelectData).value === '1')
+                                        setStartDayOption(e as DayOption)
                                     }}
                                 />
                             </div>

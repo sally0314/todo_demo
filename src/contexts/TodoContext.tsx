@@ -46,7 +46,7 @@ export const TodoContext = createContext<Context>({
 });
 
 interface Props {
-    readonly children: JSX.Element | JSX.Element[];
+    readonly children: React.JSX.Element | React.JSX.Element[];
 }
 
 export const TodoContextProvider = ({children}: Props) => {

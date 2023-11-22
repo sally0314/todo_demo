@@ -3,7 +3,7 @@ import React, {useContext, useState} from 'react';
 import {Todo, TodoContext} from "contexts/TodoContext";
 import dayjs from "dayjs";
 import {Textarea} from "./Textarea";
-import {MiniCalendar} from "./MiniCalendar";
+import {MiniCalendar} from "./TodoCalendar/MiniCalendar";
 
 interface Props {
     readonly dateKey: string;
