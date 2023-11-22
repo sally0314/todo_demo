@@ -4,7 +4,7 @@ import {Todo, TodoContext} from "contexts/TodoContext";
 import dayjs from "dayjs";
 import {Textarea} from "./Textarea";
 import DatePicker from './DatePicker/DatePicker'
-import {DatePickerContextProvider} from '../contexts/TodoCalendarContext'
+import {TodoCalendarContextProvider} from '../contexts/TodoCalendarContext'
 
 interface Props {
     readonly dateKey: string;
@@ -53,7 +53,7 @@ const TodoInput = ({ dateKey, onClose, todo }: Props) => {
     }
 
     return (
-        <DatePickerContextProvider>
+        <TodoCalendarContextProvider>
             <div
                 className={'flex w-full flex-col p-4'}
                 onClick={(e) => {
@@ -138,7 +138,7 @@ const TodoInput = ({ dateKey, onClose, todo }: Props) => {
                     </button>
                 </div>
             </div>
-        </DatePickerContextProvider>
+        </TodoCalendarContextProvider>
     );
 }
 

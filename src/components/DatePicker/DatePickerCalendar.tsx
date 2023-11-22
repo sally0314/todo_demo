@@ -1,7 +1,7 @@
 import dayjs, {Dayjs} from 'dayjs'
 import isToday from 'dayjs/plugin/isToday'
 import {useContext} from 'react'
-import {DatePickerContext} from '../../contexts/TodoCalendarContext'
+import {TodoCalendarContext} from '../../contexts/TodoCalendarContext'
 
 dayjs.extend(isToday)
 
@@ -11,35 +11,7 @@ interface Props {
 }
 
 const DatePickerCalendar = ({ value, onChange }: Props) => {
-    const { settings, goPrev, goToday, goNext } = useContext(DatePickerContext)
-    const workDate: Dayjs = settings.currentDate || dayjs()
-    const mondayFirst: boolean = settings.mondayFirst
-    const title: string = workDate.clone().format('MMMM YYYY')
-    const daysInMonth: number = workDate.daysInMonth()
-    // 0 (Sunday) to 6 (Saturday)
-    const dayOf1stForSundayFirst: number = dayjs(workDate.clone().format('YYYY-MM-01')).day()
-    const dayOf1stForMondayFirst: number = (dayOf1stForSundayFirst + 6) % 7
-
-    const dayOfLastForSundayFirst: number = dayjs(workDate.clone().format(`YYYY-MM-${daysInMonth}`)).day()
-    const dayOfLastForMondayFirst: number = (dayOfLastForSundayFirst + 6) % 7
-
-    const days: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-
-    if (mondayFirst) {
-        days.push(`${days.shift()}`)
-    }
-    const dayOf1st: number = mondayFirst ? dayOf1stForMondayFirst : dayOf1stForSundayFirst
-    const dayOfLast: number = mondayFirst ? dayOfLastForMondayFirst : dayOfLastForSundayFirst
-
-    let previousDays: number = Array(dayOf1st).length
-    const dayIndexes: Array<number> = [...Array(dayOf1st)].map(() => 0 - previousDays--)
-    const remains: number = 6 - dayOfLast
-    const limits: number = daysInMonth + remains
-    for (let i: number = 0; i < limits; i++) {
-        dayIndexes.push(i)
-    }
-
-    const startingDate = dayjs(workDate.clone().format('YYYY-MM-01'));
+    const { calendar, goPrev, goToday, goNext } = useContext(TodoCalendarContext)
 
     return (
         <div className={'w-full'}>
@@ -68,7 +40,7 @@ const DatePickerCalendar = ({ value, onChange }: Props) => {
                                 </ul>
                             </nav>
                         </div>
-                        <div className={'flex ml-1'}>{title}</div>
+                        <div className={'flex ml-1'}>{calendar.title}</div>
                     </div>
 
                     <div className={'flex items-center'}>
@@ -87,7 +59,7 @@ const DatePickerCalendar = ({ value, onChange }: Props) => {
                     </div>
                 </div>
 
-                {days.map((day: string) => {
+                {calendar.days.map((day: string) => {
                     return (
                         <div
                             key={day}
@@ -98,8 +70,8 @@ const DatePickerCalendar = ({ value, onChange }: Props) => {
                     )
                 })}
 
-                {dayIndexes.map((x: number, i: number) => {
-                    const cellDate = startingDate.clone().add(x, 'days')
+                {calendar.dayIndexes.map((x: number, i: number) => {
+                    const cellDate = calendar.firstDayOfMonth.clone().add(x, 'days')
                     const cellDay = cellDate.format('D') === `1` ? cellDate.format('D') : cellDate.format('D')
 
                     return (
@@ -121,7 +93,8 @@ const DatePickerCalendar = ({ value, onChange }: Props) => {
                                             (<span
                                                 className="w-7 inline-block whitespace-nowrap rounded-full bg-primary-100 py-[0.3rem] px-[0.3em] text-center align-baseline leading-none"
                                             >{cellDay}</span>)
-                                            : <span className={'w-7 inline-block whitespace-nowrap rounded-full hover:bg-primary-100 py-[0.3rem] px-[0.3em] text-center align-baseline leading-none'}>{cellDay}</span>
+                                            : <span
+                                                className={'w-7 inline-block whitespace-nowrap rounded-full hover:bg-primary-100 py-[0.3rem] px-[0.3em] text-center align-baseline leading-none'}>{cellDay}</span>
                                     }
                                 </div>
                             </div>

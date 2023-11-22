@@ -10,7 +10,6 @@ interface Props {
 
 
 const DatePicker = ({ value, onChange }: Props): JSX.Element => {
-    console.log({ value, onChange })
     const date = value.format('YYYY-MM-DD')
 
     return (
