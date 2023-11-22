@@ -2,6 +2,8 @@ import dayjs, {Dayjs} from 'dayjs'
 import isToday from 'dayjs/plugin/isToday'
 import {useContext} from 'react'
 import {TodoCalendarContext} from '../../contexts/TodoCalendarContext'
+import ChevronLeftIcon from '../../icons/ChevronLeftIcon'
+import ChevronRightIcon from '../../icons/ChevronRightIcon'
 
 dayjs.extend(isToday)
 
@@ -21,21 +23,11 @@ const DatePickerCalendar = ({ value, onChange }: Props) => {
                         <div>
                             <nav className={'mx-2'}>
                                 <ul className={'inline-flex -space-x-px text-sm'}>
-                                    <li className={'mx-1'} onClick={goPrev}>
-                                        <svg className={'w-[23px] h-[23px] fill-[#8e8e8e]'} viewBox="-30 -30 576 512"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"
-                                            />
-                                        </svg>
+                                    <li className={'mx-1 cursor-pointer'} onClick={goPrev}>
+                                        <ChevronLeftIcon/>
                                     </li>
-                                    <li className={'mx-1'} onClick={goNext}>
-                                        <svg className={'w-[23px] h-[23px] fill-[#8e8e8e]'} viewBox="-30 -30 576 512"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-                                            />
-                                        </svg>
+                                    <li className={'mx-1 cursor-pointer'} onClick={goNext}>
+                                        <ChevronRightIcon/>
                                     </li>
                                 </ul>
                             </nav>
@@ -91,10 +83,10 @@ const DatePickerCalendar = ({ value, onChange }: Props) => {
                                     {
                                         cellDate.diff(value) === 0 ?
                                             (<span
-                                                className="w-7 inline-block whitespace-nowrap rounded-full bg-primary-100 py-[0.3rem] px-[0.3em] text-center align-baseline leading-none"
+                                                className="w-7 inline-block whitespace-nowrap rounded-full bg-primary-100 py-[0.3rem] px-[0.3em] text-center align-baseline leading-none cursor-pointer"
                                             >{cellDay}</span>)
                                             : <span
-                                                className={'w-7 inline-block whitespace-nowrap rounded-full hover:bg-primary-100 py-[0.3rem] px-[0.3em] text-center align-baseline leading-none'}>{cellDay}</span>
+                                                className={'w-7 inline-block whitespace-nowrap rounded-full hover:bg-primary-100 py-[0.3rem] px-[0.3em] text-center align-baseline leading-none cursor-pointer'}>{cellDay}</span>
                                     }
                                 </div>
                             </div>
