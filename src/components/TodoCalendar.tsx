@@ -1,4 +1,4 @@
-import dayjs, {Dayjs} from 'dayjs';
+import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday'
 import {TodoCalendarContext} from "../contexts/TodoCalendarContext";
 import TodoModal from "./TodoCalendar/TodoModal";
@@ -11,36 +11,7 @@ import TodoConfig from "./TodoCalendar/TodoConfig";
 dayjs.extend(isToday)
 
 const TodoCalendar = () => {
-    const { settings, goPrev, goToday, goNext } = useContext(TodoCalendarContext)
-    const workDate: Dayjs = settings.currentDate || dayjs()
-    const mondayFirst: boolean = settings.mondayFirst
-    const title: string = workDate.clone().format('MMMM YYYY')
-    const daysInMonth: number = workDate.daysInMonth()
-    // 0 (Sunday) to 6 (Saturday)
-    const dayOf1stForSundayFirst: number = dayjs(workDate.clone().format('YYYY-MM-01')).day()
-    const dayOf1stForMondayFirst: number = (dayOf1stForSundayFirst + 6) % 7
-
-    const dayOfLastForSundayFirst: number = dayjs(workDate.clone().format(`YYYY-MM-${daysInMonth}`)).day()
-    const dayOfLastForMondayFirst: number = (dayOfLastForSundayFirst + 6) % 7
-
-    const days: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-
-    if (mondayFirst) {
-        days.push(`${days.shift()}`)
-    }
-    const dayOf1st: number = mondayFirst ? dayOf1stForMondayFirst : dayOf1stForSundayFirst
-    const dayOfLast: number = mondayFirst ? dayOfLastForMondayFirst : dayOfLastForSundayFirst
-
-    let previousDays:number = Array(dayOf1st).length
-    const dayIndexes: Array<number> = [...Array(dayOf1st)].map(() => 0 - previousDays--)
-    const remains: number = 6 - dayOfLast
-    const limits: number = daysInMonth + remains
-    for (let i: number = 0; i < limits; i++) {
-        dayIndexes.push(i)
-    }
-
-    const startingDate = dayjs(workDate.clone().format('YYYY-MM-01'));
-
+    const { calendar, goPrev, goToday, goNext } = useContext(TodoCalendarContext)
     const { modalKeyMap, openModal } = useContext(TodoContext);
 
     return (
@@ -70,7 +41,7 @@ const TodoCalendar = () => {
                                 </ul>
                             </nav>
                         </div>
-                        <div className={'flex ml-1 text-xl'}>{title}</div>
+                        <div className={'flex ml-1 text-xl'}>{calendar.title}</div>
                     </div>
 
                     <div className={'flex items-center'}>
@@ -92,7 +63,7 @@ const TodoCalendar = () => {
                     </div>
                 </div>
 
-                {days.map((day: string, i: number) => {
+                {calendar.days.map((day: string, i: number) => {
                     return (
                         <div
                             key={day}
@@ -103,8 +74,8 @@ const TodoCalendar = () => {
                     )
                 })}
 
-                {dayIndexes.map((x: number, i: number) => {
-                    const cellDate = startingDate.clone().add(x, 'days')
+                {calendar.dayIndexes.map((x: number, i: number) => {
+                    const cellDate = calendar.firstDayOfMonth.clone().add(x, 'days')
                     const cellDay = cellDate.format('D') === `1` ? cellDate.format('MMM D') : cellDate.format('D')
                     const dateKey = cellDate.format('YYYY-MM-DD')
 
@@ -120,7 +91,7 @@ const TodoCalendar = () => {
                         >
                             <div className={'h-40 mt-2'}>
                                 <div
-                                    className={((x < 0 || x >= daysInMonth) ? 'italic dark:text-neutral-400 text-[0.95rem]' : '') + ' w-100 text-right'}>
+                                    className={((x < 0 || x >= calendar.daysInMonth) ? 'italic dark:text-neutral-400 text-[0.95rem]' : '') + ' w-100 text-right'}>
                                     {
                                         cellDate.isToday() ?
                                             (<span
